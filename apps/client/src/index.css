@@ -5,19 +5,30 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    user-select: none;
+    -webkit-user-select: none;
   }
   html.dark,
   html.dark body,
   [data-theme="dark"],
   [data-theme="dark"] body {
-    background-color: #0c0817 !important;
-    color: #f3eefc !important;
+    background-color: #0c0817;
+    color: #f3eefc;
     color-scheme: dark;
   }
   body {
     background-color: #FAF8FF;
     color: #1E1B4B;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  input, textarea {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
   }
 }
 

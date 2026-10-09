@@ -1,6 +1,6 @@
 import React from 'react';
 import { ConfiguracionWeb } from '@sorteos/shared';
-import { ExternalLink, Radio } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 interface Props {
   config: ConfiguracionWeb;
@@ -41,11 +41,11 @@ export const TransmisionesSection: React.FC<Props> = ({ config }) => {
             Nuestras transmisiones <span className="text-rose-600 font-extrabold">EN VIVO</span>
           </h3>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-purple-200/80 mt-2 font-medium">
-            El sorteo se realiza <span className="font-bold underline decoration-rose-400 decoration-2">únicamente por Facebook</span>. En WhatsApp compartimos números, avisos y ganadores en vivo.
+            El sorteo se realiza <strong className="font-black text-slate-900 dark:text-white">únicamente por Facebook</strong>. En WhatsApp compartimos números, avisos y ganadores en vivo.
           </p>
         </div>
 
-        {/* Cards Apilados y Centrados */}
+        {/* Cards Apilados y Centrados con mayor tonalidad y contraste */}
         <div className="max-w-xl mx-auto flex flex-col gap-4 sm:gap-5">
           {/* Card Facebook Apilado */}
           {fbActivo && (
@@ -53,33 +53,33 @@ export const TransmisionesSection: React.FC<Props> = ({ config }) => {
               href={facebookUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative overflow-hidden bg-gradient-to-r from-blue-50/80 via-white to-blue-50/40 dark:from-[#131b2e] dark:via-[#111624] dark:to-[#0f131f] border border-blue-200/80 dark:border-blue-900/60 hover:border-[#1877F2] dark:hover:border-[#1877F2] rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-[#1877F2]/10 flex items-center justify-between"
+              className="group relative overflow-hidden bg-gradient-to-r from-blue-100/90 via-blue-50/80 to-indigo-50/70 dark:from-[#0d1c38] dark:via-[#0b162c] dark:to-[#081020] border-2 border-blue-300 dark:border-blue-700/80 hover:border-[#1877F2] dark:hover:border-[#1877F2] rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-[#1877F2]/20 flex items-center justify-between"
             >
               <div className="flex items-center gap-4 sm:gap-5 min-w-0">
-                {/* Logo oficial de Facebook desde la carpeta de iconos */}
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white dark:bg-slate-900 border border-blue-100 dark:border-blue-900/50 p-2.5 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+                {/* Contenedor del logo con color de marca azul para resaltar el icono blanco */}
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#1877F2] border border-[#1877F2] p-2.5 flex items-center justify-center shrink-0 shadow-md shadow-[#1877F2]/30 group-hover:scale-105 transition-transform">
                   <img
                     src="/icons/facebook (1).png"
                     alt="Facebook"
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-contain filter brightness-100"
                   />
                 </div>
 
                 <div className="min-w-0">
-                  <span className="inline-block bg-[#1877F2] text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1">
+                  <span className="inline-block bg-[#1877F2] text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1 shadow-xs">
                     🏆 Aquí se realiza el sorteo
                   </span>
                   <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
                     Facebook Live
                   </h4>
-                  <p className="text-xs text-[#1877F2] dark:text-[#64a2ff] font-semibold truncate mt-0.5">
+                  <p className="text-xs text-[#125ec2] dark:text-[#64a2ff] font-bold truncate mt-0.5">
                     Transmisión oficial del sorteo en directo
                   </p>
                 </div>
               </div>
 
-              <div className="w-10 h-10 rounded-2xl bg-blue-100/70 dark:bg-blue-950/60 group-hover:bg-[#1877F2] group-hover:text-white text-blue-700 dark:text-blue-300 flex items-center justify-center shrink-0 transition-colors ml-3">
-                <ExternalLink className="w-4 h-4" />
+              <div className="w-10 h-10 rounded-2xl bg-[#1877F2] text-white flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 ml-3 shadow-sm">
+                <ExternalLink className="w-4 h-4 stroke-[2.5]" />
               </div>
             </a>
           )}
@@ -90,33 +90,33 @@ export const TransmisionesSection: React.FC<Props> = ({ config }) => {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative overflow-hidden bg-gradient-to-r from-emerald-50/80 via-white to-emerald-50/40 dark:from-[#11241a] dark:via-[#0e1d16] dark:to-[#0c1812] border border-emerald-200/80 dark:border-emerald-900/60 hover:border-[#25D366] dark:hover:border-[#25D366] rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-[#25D366]/10 flex items-center justify-between"
+              className="group relative overflow-hidden bg-gradient-to-r from-emerald-100/90 via-emerald-50/80 to-teal-50/70 dark:from-[#092518] dark:via-[#071c12] dark:to-[#05140d] border-2 border-emerald-300 dark:border-emerald-700/80 hover:border-[#25D366] dark:hover:border-[#25D366] rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-[#25D366]/20 flex items-center justify-between"
             >
               <div className="flex items-center gap-4 sm:gap-5 min-w-0">
-                {/* Logo oficial de WhatsApp desde la carpeta de iconos */}
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/50 p-2.5 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+                {/* Contenedor del logo con color de marca verde para resaltar el icono blanco */}
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#25D366] border border-[#25D366] p-2.5 flex items-center justify-center shrink-0 shadow-md shadow-[#25D366]/30 group-hover:scale-105 transition-transform">
                   <img
                     src="/icons/whatsapp (1).png"
                     alt="WhatsApp"
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-contain filter brightness-100"
                   />
                 </div>
 
                 <div className="min-w-0">
-                  <span className="inline-block bg-[#25D366] text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1">
+                  <span className="inline-block bg-[#25D366] text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1 shadow-xs">
                     💬 Comunidad Oficial
                   </span>
                   <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
                     Comunidad de WhatsApp
                   </h4>
-                  <p className="text-xs text-emerald-700 dark:text-emerald-400 font-semibold truncate mt-0.5">
+                  <p className="text-xs text-[#139443] dark:text-[#52e78b] font-bold truncate mt-0.5">
                     Resultados, listas de tickets y alertas
                   </p>
                 </div>
               </div>
 
-              <div className="w-10 h-10 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/60 group-hover:bg-[#25D366] group-hover:text-white text-emerald-700 dark:text-emerald-300 flex items-center justify-center shrink-0 transition-colors ml-3">
-                <ExternalLink className="w-4 h-4" />
+              <div className="w-10 h-10 rounded-2xl bg-[#25D366] text-white flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 ml-3 shadow-sm">
+                <ExternalLink className="w-4 h-4 stroke-[2.5]" />
               </div>
             </a>
           )}

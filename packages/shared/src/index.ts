@@ -15,6 +15,7 @@ export interface Premio {
   categoria?: string; // Ej. "Laptop", "Smartphone", "Vehículo"
   modelo?: string; // Ej. "MacBook Air", "iPhone 16"
   cantidad?: number; // Cantidad de unidades (ej. 4)
+  valorEstimado?: number; // Valor referencial en soles
   esMayor: boolean;
   orden: number;
   imagenUrl?: string;

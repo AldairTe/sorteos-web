@@ -18,11 +18,11 @@ export const Navbar: React.FC<Props> = ({
   onScrollToTickets,
 }) => {
   return (
-    <header className="sticky top-0 z-40 bg-white/85 dark:bg-[#0c0817]/85 backdrop-blur-xl border-b border-purple-200/50 dark:border-purple-900/40 shadow-[0_4px_25px_-5px_rgba(132,66,242,0.08)] dark:shadow-[0_4px_30px_-5px_rgba(0,0,0,0.5)] transition-colors">
-      {/* Resplandor inferior difuminado suave */}
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent pointer-events-none" />
+    <header className="sticky top-0 z-40">
+      {/* Fondo desvanecido suave hacia abajo sin borde inferior */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/85 to-white/10 dark:from-[#0c0817]/95 dark:via-[#0c0817]/85 dark:to-[#0c0817]/10 backdrop-blur-md pointer-events-none [mask-image:linear-gradient(to_bottom,black_80%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,black_80%,transparent)]" />
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Brand / Logo oficial sin recuadro morado */}
         <div className="flex items-center gap-3.5">
           {config.logoUrl ? (

@@ -12,6 +12,7 @@ import { ConfettiLoop } from './ConfettiLoop';
 interface Props {
   sorteos: Sorteo[];
   onSeleccionarSorteo: (sorteo: Sorteo) => void;
+  onVerDetalles?: (sorteo: Sorteo) => void;
 }
 
 // Subcomponente de cuenta regresiva individual con paleta morada/pastel
@@ -189,7 +190,7 @@ const CarruselPremiosInteractivo: React.FC<{
             {/* Badge de cantidad si es > 1 */}
             {premio.cantidad && premio.cantidad > 1 && (
               <span className="absolute top-1.5 right-1.5 bg-purple-600 text-white font-black text-[10px] px-1.5 py-0.5 rounded-md shadow-xs">
-                {premio.cantidad}x
+                x{premio.cantidad}
               </span>
             )}
           </div>
@@ -213,8 +214,8 @@ const SorteoCardHorizontal: React.FC<{
   sorteo: Sorteo;
   index: number;
   onComprar: () => void;
-}> = ({ sorteo, index, onComprar }) => {
-  const [modalTodosPremios, setModalTodosPremios] = useState(false);
+  onVerDetalles: () => void;
+}> = ({ sorteo, index, onComprar, onVerDetalles }) => {
 
   // Identificar el Premio Mayor y secundarios
   const premioMayor =
@@ -318,7 +319,7 @@ const SorteoCardHorizontal: React.FC<{
 
                 <button
                   type="button"
-                  onClick={() => setModalTodosPremios(true)}
+                  onClick={onVerDetalles}
                   className="text-xs font-bold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 hover:underline flex items-center gap-1 cursor-pointer transition"
                 >
                   <span>Ver todos</span>
@@ -389,87 +390,11 @@ const SorteoCardHorizontal: React.FC<{
           </div>
         </div>
       </div>
-
-      {/* Modal para ver lista completa de premios del sorteo */}
-      {modalTodosPremios && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-[#130d24] text-slate-900 dark:text-white rounded-3xl max-w-2xl w-full border border-purple-200 dark:border-purple-800 p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl">
-            <div className="flex items-center justify-between border-b border-purple-100 dark:border-purple-900/60 pb-4">
-              <div>
-                <span className="text-xs font-mono font-bold text-purple-600 dark:text-purple-400 uppercase">
-                  {codigoSorteo}
-                </span>
-                <h3 className="text-xl font-black text-slate-900 dark:text-white mt-0.5">
-                  Lista Completa de Premios: {sorteo.titulo}
-                </h3>
-              </div>
-              <button
-                onClick={() => setModalTodosPremios(false)}
-                className="w-9 h-9 rounded-full bg-slate-100 dark:bg-purple-900/50 hover:bg-slate-200 dark:hover:bg-purple-900 text-slate-700 dark:text-white flex items-center justify-center font-bold cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {todosLosPremios.map((p, idx) => (
-                <div
-                  key={p.id || idx}
-                  className={`p-4 rounded-2xl border flex items-center gap-4 ${
-                    p.esMayor
-                      ? 'bg-purple-50 dark:bg-purple-950/40 border-purple-300 dark:border-purple-700'
-                      : 'bg-slate-50 dark:bg-[#1a1230] border-slate-200 dark:border-purple-900/60'
-                  }`}
-                >
-                  <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-white dark:bg-slate-900 flex items-center justify-center shadow-xs">
-                    {p.imagenUrl ? (
-                      <img src={p.imagenUrl} alt={p.nombre} className="w-full h-full object-cover rounded-xl" />
-                    ) : (
-                      <span className="text-2xl">🎁</span>
-                    )}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-slate-900 dark:text-white truncate">{p.nombre}</span>
-                      {p.cantidad && p.cantidad > 1 && (
-                        <span className="bg-purple-600 text-white text-[10px] font-black px-1.5 py-0.2 rounded shrink-0">
-                          {p.cantidad}x
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-[11px] text-slate-500 dark:text-purple-300 truncate mt-0.5">
-                      {p.descripcion || 'Premio oficial'}
-                    </p>
-                    {p.esMayor && (
-                      <span className="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider block mt-1">
-                        ★ PREMIO MAYOR
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="pt-2 flex justify-end">
-              <button
-                onClick={() => {
-                  setModalTodosPremios(false);
-                  onComprar();
-                }}
-                className="bg-purple-600 hover:bg-purple-700 text-white font-black text-xs px-6 py-3.5 rounded-xl shadow-md transition flex items-center gap-2 cursor-pointer"
-              >
-                <Ticket className="w-4 h-4" />
-                <span>Participar en este Sorteo</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };
 
-export const SorteosCards: React.FC<Props> = ({ sorteos, onSeleccionarSorteo }) => {
+export const SorteosCards: React.FC<Props> = ({ sorteos, onSeleccionarSorteo, onVerDetalles }) => {
   return (
     <section id="sorteos-disponibles" className="py-12 sm:py-16 bg-pastel-50 dark:bg-[#0c0817] transition-colors relative">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -497,6 +422,7 @@ export const SorteosCards: React.FC<Props> = ({ sorteos, onSeleccionarSorteo }) 
               sorteo={sorteo}
               index={idx}
               onComprar={() => onSeleccionarSorteo(sorteo)}
+              onVerDetalles={() => onVerDetalles ? onVerDetalles(sorteo) : onSeleccionarSorteo(sorteo)}
             />
           ))}
         </div>

@@ -13,9 +13,10 @@ import { TerminosPage } from './pages/TerminosPage';
 import { PrivacidadPage } from './pages/PrivacidadPage';
 import { LibroReclamacionesPage } from './pages/LibroReclamacionesPage';
 import { ComprarPage } from './pages/ComprarPage';
+import { DetalleSorteoPage } from './pages/DetalleSorteoPage';
 import { Loader2 } from 'lucide-react';
 
-type ActivePage = 'home' | 'terminos' | 'privacidad' | 'reclamaciones' | 'comprar';
+type ActivePage = 'home' | 'terminos' | 'privacidad' | 'reclamaciones' | 'comprar' | 'detalle';
 
 export const App: React.FC = () => {
   const [sorteos, setSorteos] = useState<Sorteo[]>([]);
@@ -56,6 +57,7 @@ export const App: React.FC = () => {
     if (hash.startsWith('#privacidad')) return 'privacidad';
     if (hash.startsWith('#libro-reclamaciones') || hash.startsWith('#reclamaciones')) return 'reclamaciones';
     if (hash.startsWith('#comprar')) return 'comprar';
+    if (hash.startsWith('#sorteo-')) return 'detalle';
     return 'home';
   });
 
@@ -98,10 +100,13 @@ export const App: React.FC = () => {
         ]);
         if (sorteosData && sorteosData.length > 0) {
           setSorteos(sorteosData);
-          // Si el hash indica un sorteo específico o por defecto el primero
           const hash = window.location.hash;
           if (hash.startsWith('#comprar-')) {
             const id = hash.replace('#comprar-', '');
+            const found = sorteosData.find(s => s.id === id);
+            setSorteoSeleccionado(found || sorteosData[0]);
+          } else if (hash.startsWith('#sorteo-')) {
+            const id = hash.replace('#sorteo-', '');
             const found = sorteosData.find(s => s.id === id);
             setSorteoSeleccionado(found || sorteosData[0]);
           } else {
@@ -140,6 +145,13 @@ export const App: React.FC = () => {
         }
         setActivePage('comprar');
         window.scrollTo(0, 0);
+      } else if (hash.startsWith('#sorteo-')) {
+        const raw = window.location.hash;
+        const id = raw.replace('#sorteo-', '');
+        const found = sorteos.find(s => s.id === id);
+        if (found) setSorteoSeleccionado(found);
+        setActivePage('detalle');
+        window.scrollTo(0, 0);
       } else if (hash === '' || hash.startsWith('#sorteos') || hash.startsWith('#como-participar') || hash.startsWith('#mis-tickets') || hash.startsWith('#salon-de-la-fama')) {
         setActivePage('home');
       }
@@ -177,6 +189,8 @@ export const App: React.FC = () => {
       window.location.hash = 'libro-reclamaciones';
     } else if (page === 'comprar') {
       window.location.hash = sorteo ? `comprar-${sorteo.id}` : 'comprar';
+    } else if (page === 'detalle') {
+      window.location.hash = sorteo ? `sorteo-${sorteo.id}` : 'sorteo';
     } else {
       window.location.hash = '';
     }
@@ -211,7 +225,7 @@ export const App: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-pastel-50 dark:bg-[#0c0817] flex flex-col items-center justify-center transition-colors">
+      <div className="min-h-screen bg-pastel-50 dark:bg-[#0c0817] flex flex-col items-center justify-center">
         <div className="w-16 h-16 rounded-3xl bg-purple-600 text-white flex items-center justify-center text-3xl font-extrabold shadow-pastel-lg animate-bounce">
           🍀
         </div>
@@ -223,12 +237,12 @@ export const App: React.FC = () => {
     );
   }
 
-  const sorteoParaComprar = sorteoSeleccionado || sorteos[0];
+  const sorteoActivo = sorteoSeleccionado || sorteos[0];
 
   return (
     <div
       data-theme={isDarkMode ? 'dark' : 'light'}
-      className="min-h-screen flex flex-col bg-pastel-50 dark:bg-[#0c0817] text-slate-900 dark:text-purple-100 transition-colors selection:bg-purple-300 dark:selection:bg-purple-900"
+      className="min-h-screen flex flex-col bg-pastel-50 dark:bg-[#0c0817] text-slate-900 dark:text-purple-100 selection:bg-purple-300 dark:selection:bg-purple-900"
     >
       {/* 1. Barra de Navegación Oficial: con Botón "Ganadores" y selector de tema a su DERECHA */}
       <Navbar
@@ -264,9 +278,16 @@ export const App: React.FC = () => {
         <PrivacidadPage config={config} onVolver={() => navigateTo('home')} />
       ) : activePage === 'reclamaciones' ? (
         <LibroReclamacionesPage config={config} onVolver={() => navigateTo('home')} />
-      ) : activePage === 'comprar' && sorteoParaComprar ? (
+      ) : activePage === 'detalle' && sorteoActivo ? (
+        <DetalleSorteoPage
+          sorteo={sorteoActivo}
+          config={config}
+          onVolver={() => navigateTo('home')}
+          onComprar={handleAbrirComprarSorteo}
+        />
+      ) : activePage === 'comprar' && sorteoActivo ? (
         <ComprarPage
-          sorteo={sorteoParaComprar}
+          sorteo={sorteoActivo}
           config={config}
           onVolver={() => navigateTo('home')}
           onCompraCompletada={handleCompraCompletada}
@@ -278,6 +299,7 @@ export const App: React.FC = () => {
             <SorteosCards
               sorteos={sorteos}
               onSeleccionarSorteo={handleAbrirComprarSorteo}
+              onVerDetalles={(s) => navigateTo('detalle', s)}
             />
           )}
 
@@ -293,7 +315,7 @@ export const App: React.FC = () => {
             onOpenChat={handleOpenChat}
           />
 
-          {/* 6. SECCIÓN: Salón de la Fama (Centrado, carrusel horizontal solo con imágenes) */}
+          {/* 6. SECCIÓN: Salón de la Fama (Centrado, carrusel horizontal solo con imágenes y bordes desvanecidos) */}
           <SalonDeLaFama />
         </main>
       )}

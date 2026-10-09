@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { GanadorFama } from '@sorteos/shared';
 import { getGanadoresFama } from '../services/api';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const SalonDeLaFama: React.FC = () => {
   const [ganadores, setGanadores] = useState<GanadorFama[]>([]);
@@ -41,12 +40,14 @@ export const SalonDeLaFama: React.FC = () => {
     const step = () => {
       const container = scrollRef.current;
       if (container && !isDragging.current && !isHovered.current) {
+        container.scrollLeft += speed;
+        // Reinicio seamless para bucle infinito
         const oneThird = container.scrollWidth / 3;
-        let nextLeft = container.scrollLeft + speed;
-        if (oneThird > 0 && nextLeft >= oneThird * 2) {
-          nextLeft -= oneThird;
+        if (container.scrollLeft >= oneThird * 2) {
+          container.scrollLeft -= oneThird;
+        } else if (container.scrollLeft <= 0) {
+          container.scrollLeft += oneThird;
         }
-        container.scrollLeft = nextLeft;
       }
       animId = requestAnimationFrame(step);
     };
@@ -55,7 +56,7 @@ export const SalonDeLaFama: React.FC = () => {
     return () => cancelAnimationFrame(animId);
   }, [ganadores]);
 
-  // Manejo de arrastre (drag con mouse / swipe táctil)
+  // Arrastre con ratón / touch
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     const container = scrollRef.current;
     if (!container) return;
@@ -81,16 +82,6 @@ export const SalonDeLaFama: React.FC = () => {
     }
   };
 
-  const handleScrollDir = (direction: 'left' | 'right') => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const scrollAmount = 360;
-    container.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth',
-    });
-  };
-
   if (!loading && ganadores.length === 0) {
     return null;
   }
@@ -112,56 +103,45 @@ export const SalonDeLaFama: React.FC = () => {
           <p className="mt-2 text-slate-600 dark:text-purple-200/80 text-sm sm:text-base font-medium">
             Nuestros afortunados ganadores con entrega verificada ante notario público y transmisiones en vivo.
           </p>
-
-          {/* Flechas de navegación centradas */}
-          <div className="flex items-center justify-center gap-3 mt-6">
-            <button
-              type="button"
-              onClick={() => handleScrollDir('left')}
-              className="w-11 h-11 rounded-2xl bg-white dark:bg-[#160f2b] border border-purple-200 dark:border-purple-900 text-slate-700 dark:text-white flex items-center justify-center hover:bg-purple-50 dark:hover:bg-purple-950 transition cursor-pointer shadow-xs active:scale-95"
-              aria-label="Anterior"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => handleScrollDir('right')}
-              className="w-11 h-11 rounded-2xl bg-white dark:bg-[#160f2b] border border-purple-200 dark:border-purple-900 text-slate-700 dark:text-white flex items-center justify-center hover:bg-purple-50 dark:hover:bg-purple-950 transition cursor-pointer shadow-xs active:scale-95"
-              aria-label="Siguiente"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
         </div>
 
-        {/* Carrusel Centrado: Cards SOLO con imágenes, en formato horizontal */}
-        <div
-          ref={scrollRef}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-          onMouseEnter={() => { isHovered.current = true; }}
-          onMouseLeave={() => {
-            isHovered.current = false;
-            handlePointerUp();
-          }}
-          className="flex gap-5 sm:gap-6 overflow-x-auto no-scrollbar py-4 select-none cursor-grab"
-        >
-          {items.map((g, idx) => (
-            <div
-              key={`${g.id}-${idx}`}
-              className="shrink-0 w-[300px] sm:w-[380px] md:w-[420px] h-[190px] sm:h-[240px] md:h-[260px] rounded-3xl overflow-hidden shadow-xl shadow-purple-500/10 border border-purple-200/90 dark:border-purple-900/70 hover:border-purple-400 dark:hover:border-purple-600 transition-all duration-300 group bg-slate-900"
-            >
-              {/* Tarjeta contiene ÚNICAMENTE la imagen en horizontal que ocupa el 100% del card */}
-              <img
-                src={g.fotoUrl}
-                alt={g.nombre || 'Ganador'}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                draggable={false}
-              />
-            </div>
-          ))}
+        {/* Carrusel con difuminado suave a los lados para desvanecimiento continuo */}
+        <div className="relative">
+          {/* Desvanecimiento difuminado a la izquierda */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-36 bg-gradient-to-r from-pastel-50 via-pastel-50/80 to-transparent dark:from-[#0a0614] dark:via-[#0a0614]/80 dark:to-transparent z-10" />
+
+          {/* Desvanecimiento difuminado a la derecha */}
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-36 bg-gradient-to-l from-pastel-50 via-pastel-50/80 to-transparent dark:from-[#0a0614] dark:via-[#0a0614]/80 dark:to-transparent z-10" />
+
+          {/* Carrusel Centrado con máscara CSS para suavizar los extremos */}
+          <div
+            ref={scrollRef}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            onMouseEnter={() => { isHovered.current = true; }}
+            onMouseLeave={() => {
+              isHovered.current = false;
+              handlePointerUp();
+            }}
+            className="flex gap-5 sm:gap-6 overflow-x-auto no-scrollbar py-4 px-4 sm:px-10 select-none cursor-grab [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
+          >
+            {items.map((g, idx) => (
+              <div
+                key={`${g.id}-${idx}`}
+                className="shrink-0 w-[300px] sm:w-[380px] md:w-[420px] h-[190px] sm:h-[240px] md:h-[260px] rounded-3xl overflow-hidden shadow-xl shadow-purple-500/10 border border-purple-200/90 dark:border-purple-900/70 hover:border-purple-400 dark:hover:border-purple-600 transition-all duration-300 group bg-slate-900"
+              >
+                {/* Tarjeta contiene ÚNICAMENTE la imagen en horizontal que ocupa el 100% del card */}
+                <img
+                  src={g.fotoUrl}
+                  alt={g.nombre || 'Ganador'}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
