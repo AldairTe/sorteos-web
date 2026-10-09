@@ -1,0 +1,23 @@
+{
+  "name": "sorteos-web",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build:shared": "npm --workspace=@sorteos/shared run build",
+    "build:server": "npm --workspace=@sorteos/server run build",
+    "build:client": "npm --workspace=@sorteos/client run build",
+    "build:admin": "npm --workspace=@sorteos/admin run build",
+    "build": "npm run build:shared && npm run build:server && npm run build:client && npm run build:admin",
+    "dev:server": "npm --workspace=@sorteos/server run dev",
+    "dev:client": "npm --workspace=@sorteos/client run dev",
+    "dev:admin": "npm --workspace=@sorteos/admin run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\" \"npm run dev:admin\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

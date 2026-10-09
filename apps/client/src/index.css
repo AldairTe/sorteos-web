@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  html.dark,
+  html.dark body,
+  [data-theme="dark"],
+  [data-theme="dark"] body {
+    background-color: #0c0817 !important;
+    color: #f3eefc !important;
+    color-scheme: dark;
+  }
+  body {
+    background-color: #FAF8FF;
+    color: #1E1B4B;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* Ocultar scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Efectos visuales de tarjetas */
+.glow-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(244, 238, 255, 0.85));
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(213, 194, 254, 0.6);
+}
+
+/* Estilo ticket de lotería */
+.ticket-badge {
+  position: relative;
+  background: linear-gradient(135deg, #7C3AED, #9333EA);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ticket-badge::before,
+.ticket-badge::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  background-color: #FAF8FF;
+  border-radius: 50%;
+}
+
+.ticket-badge::before {
+  left: -5px;
+}
+
+.ticket-badge::after {
+  right: -5px;
+}
+
+/* Animación sutil de respiración y pulso continuo */
+@keyframes prize-breathing {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+.animate-prize-breathing {
+  animation: prize-breathing 4s ease-in-out infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.92;
+    transform: scale(1.025);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3.5s infinite ease-in-out;
+}
+
+/* Marquee linear continuo suave */
+@keyframes marquee-linear {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-linear {
+  display: flex;
+  width: max-content;
+  animation: marquee-linear 30s linear infinite;
+}
+
+.animate-marquee-linear:hover {
+  animation-play-state: paused;
+}

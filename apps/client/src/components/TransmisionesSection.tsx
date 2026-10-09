@@ -1,0 +1,127 @@
+import React from 'react';
+import { ConfiguracionWeb } from '@sorteos/shared';
+import { ExternalLink, Radio } from 'lucide-react';
+
+interface Props {
+  config: ConfiguracionWeb;
+}
+
+export const TransmisionesSection: React.FC<Props> = ({ config }) => {
+  // Si la sección completa está desactivada por el administrador, no renderizar
+  if (config.transmisionesActiva === false) {
+    return null;
+  }
+
+  const fbActivo = config.transmisionFacebookActivo !== false;
+  const waActivo = config.transmisionWhatsappActivo !== false;
+
+  if (!fbActivo && !waActivo) {
+    return null;
+  }
+
+  const facebookUrl = config.transmisionFacebookUrl || config.facebookUrl || 'https://facebook.com';
+  const whatsappUrl = config.transmisionWhatsappUrl || (config.whatsappNumero ? `https://wa.me/${config.whatsappNumero.replace(/\D/g, '')}` : 'https://whatsapp.com');
+
+  return (
+    <section className="py-14 sm:py-20 bg-white dark:bg-[#0c0817] border-y border-purple-100 dark:border-purple-900/40 transition-colors">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Encabezado Centrado */}
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <div className="inline-flex items-center gap-2 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 px-4 py-1.5 rounded-full mb-3 shadow-xs">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600" />
+            </span>
+            <span className="text-xs font-black uppercase tracking-wider text-rose-600 dark:text-rose-400">
+              Transmisiones Oficiales
+            </span>
+          </div>
+
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+            Nuestras transmisiones <span className="text-rose-600 font-extrabold">EN VIVO</span>
+          </h3>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-purple-200/80 mt-2 font-medium">
+            El sorteo se realiza <span className="font-bold underline decoration-rose-400 decoration-2">únicamente por Facebook</span>. En WhatsApp compartimos números, avisos y ganadores en vivo.
+          </p>
+        </div>
+
+        {/* Cards Apilados y Centrados */}
+        <div className="max-w-xl mx-auto flex flex-col gap-4 sm:gap-5">
+          {/* Card Facebook Apilado */}
+          {fbActivo && (
+            <a
+              href={facebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden bg-gradient-to-r from-blue-50/80 via-white to-blue-50/40 dark:from-[#131b2e] dark:via-[#111624] dark:to-[#0f131f] border border-blue-200/80 dark:border-blue-900/60 hover:border-[#1877F2] dark:hover:border-[#1877F2] rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-[#1877F2]/10 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+                {/* Logo oficial de Facebook desde la carpeta de iconos */}
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white dark:bg-slate-900 border border-blue-100 dark:border-blue-900/50 p-2.5 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+                  <img
+                    src="/icons/facebook (1).png"
+                    alt="Facebook"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+
+                <div className="min-w-0">
+                  <span className="inline-block bg-[#1877F2] text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1">
+                    🏆 Aquí se realiza el sorteo
+                  </span>
+                  <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                    Facebook Live
+                  </h4>
+                  <p className="text-xs text-[#1877F2] dark:text-[#64a2ff] font-semibold truncate mt-0.5">
+                    Transmisión oficial del sorteo en directo
+                  </p>
+                </div>
+              </div>
+
+              <div className="w-10 h-10 rounded-2xl bg-blue-100/70 dark:bg-blue-950/60 group-hover:bg-[#1877F2] group-hover:text-white text-blue-700 dark:text-blue-300 flex items-center justify-center shrink-0 transition-colors ml-3">
+                <ExternalLink className="w-4 h-4" />
+              </div>
+            </a>
+          )}
+
+          {/* Card WhatsApp Apilado */}
+          {waActivo && (
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden bg-gradient-to-r from-emerald-50/80 via-white to-emerald-50/40 dark:from-[#11241a] dark:via-[#0e1d16] dark:to-[#0c1812] border border-emerald-200/80 dark:border-emerald-900/60 hover:border-[#25D366] dark:hover:border-[#25D366] rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-[#25D366]/10 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+                {/* Logo oficial de WhatsApp desde la carpeta de iconos */}
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-900/50 p-2.5 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+                  <img
+                    src="/icons/whatsapp (1).png"
+                    alt="WhatsApp"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+
+                <div className="min-w-0">
+                  <span className="inline-block bg-[#25D366] text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1">
+                    💬 Comunidad Oficial
+                  </span>
+                  <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                    Comunidad de WhatsApp
+                  </h4>
+                  <p className="text-xs text-emerald-700 dark:text-emerald-400 font-semibold truncate mt-0.5">
+                    Resultados, listas de tickets y alertas
+                  </p>
+                </div>
+              </div>
+
+              <div className="w-10 h-10 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/60 group-hover:bg-[#25D366] group-hover:text-white text-emerald-700 dark:text-emerald-300 flex items-center justify-center shrink-0 transition-colors ml-3">
+                <ExternalLink className="w-4 h-4" />
+              </div>
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+};
