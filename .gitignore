@@ -51,11 +51,9 @@ tmp/
 scratch/
 *.scratch.*
 
-# Uploaded user files (keep directory via .gitkeep)
-apps/server/uploads/*
-!apps/server/uploads/.gitkeep
-apps/client/public/uploads/*
-!apps/client/public/uploads/.gitkeep
+# Uploaded user payment vouchers (ignored for privacy and security)
+apps/server/uploads/comprobante-*
+apps/client/public/uploads/comprobante-*
 
 # Local database journals if any
 *.db-journal

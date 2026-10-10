@@ -63,424 +63,136 @@
   },
   "sorteos": [
     {
-      "id": "sorteo-activo-1",
+      "id": "sorteo-dinamica-2027",
       "codigo": "SORTEO #001",
-      "titulo": "La Gran Fortuna",
-      "descripcion": "Tu oportunidad de ganar grandes premios.",
-      "precioTicket": 10,
-      "fechaSorteo": "2026-10-20",
+      "titulo": "Gran Sorteo: Premios de la Dinámica",
+      "descripcion": "¡Participa por autos 0 Km año 2027, mototaxi Torito TVS, laptops gamer HP Victus, iPhones 17 Pro Max, PlayStation 5 y 100 premios en efectivo de S/ 500!",
+      "precioTicket": 5,
+      "fechaSorteo": "2026-11-28",
       "horaSorteo": "20:00",
-      "fechaCierre": "2026-10-20",
-      "horaCierre": "20:00",
+      "fechaCierre": "2026-11-28",
+      "horaCierre": "19:30",
       "estado": "ACTIVO",
-      "imagenPrincipal": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=1000&auto=format&fit=crop&q=80",
-      "metaTickets": 1000,
+      "imagenPrincipal": "/uploads/sorteo-dinamica-banner.png",
+      "metaTickets": 5000,
       "yapeNumero": "987 654 321",
       "yapeNombre": "Juan Lorenzo Perez",
       "yapeQr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=YAPE:987654321",
       "plinNumero": "987 654 321",
       "plinNombre": "Juan Lorenzo Perez",
       "plinQr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=PLIN:987654321",
-      "createdAt": "2026-10-08T18:48:54.448Z",
+      "createdAt": "2026-10-10T02:24:50.952Z",
       "premios": [
         {
-          "id": "premio-1",
-          "sorteoId": "sorteo-activo-1",
-          "nombre": "Toyota RAV4",
-          "descripcion": "El gran premio del sorteo",
-          "categoria": "Vehículo SUV",
-          "modelo": "Toyota RAV4 Híbrida 0 Km",
+          "id": "premio-dinamica-1",
+          "sorteoId": "sorteo-dinamica-2027",
+          "nombre": "1 NISSAN URVAN 0 KM AÑO 2027",
+          "descripcion": "Miniván de pasajeros color blanco 0 Km año 2027, motor diésel de alta durabilidad y máximo confort.",
+          "categoria": "Miniván / Pasajeros",
+          "modelo": "Nissan Urvan NV350 2027",
           "cantidad": 1,
           "esMayor": true,
           "orden": 1,
-          "imagenUrl": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=800&auto=format&fit=crop&q=80"
+          "imagenUrl": "/uploads/premio-nissan-urvan.png",
+          "valorEstimado": 130000
         },
         {
-          "id": "premio-2",
-          "sorteoId": "sorteo-activo-1",
-          "nombre": "MacBook Air",
-          "descripcion": "Chip M3 con 512GB SSD",
-          "categoria": "Laptop",
-          "modelo": "MacBook Air",
-          "cantidad": 2,
-          "esMayor": false,
+          "id": "premio-dinamica-2",
+          "sorteoId": "sorteo-dinamica-2027",
+          "nombre": "1 TOYOTA RUSH 0 KM AÑO 2027",
+          "descripcion": "Camioneta SUV moderna color rojo metálico 0 Km año 2027, 3 filas de asientos, pantalla multimedia y aros de aleación.",
+          "categoria": "Camioneta SUV",
+          "modelo": "Toyota Rush Full 2027",
+          "cantidad": 1,
+          "esMayor": true,
           "orden": 2,
-          "imagenUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=80"
+          "imagenUrl": "/uploads/premio-toyota-rush.png",
+          "valorEstimado": 95000
         },
         {
-          "id": "premio-3",
-          "sorteoId": "sorteo-activo-1",
-          "nombre": "iPhone 16",
-          "descripcion": "Titanio 256GB Sellado en caja",
-          "categoria": "Smartphone",
-          "modelo": "iPhone 16",
-          "cantidad": 4,
+          "id": "premio-dinamica-3",
+          "sorteoId": "sorteo-dinamica-2027",
+          "nombre": "1 TOYOTA YARIS 0 KM AÑO 2027",
+          "descripcion": "Sedán color plateado 0 Km año 2027, excelente rendimiento de combustible, transmisión moderna y seguridad garantizada.",
+          "categoria": "Sedán / Auto",
+          "modelo": "Toyota Yaris Sedán 2027",
+          "cantidad": 1,
           "esMayor": false,
           "orden": 3,
-          "imagenUrl": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500&auto=format&fit=crop&q=80"
+          "imagenUrl": "/uploads/premio-toyota-yaris.png",
+          "valorEstimado": 75000
         },
         {
-          "id": "premio-4",
-          "sorteoId": "sorteo-activo-1",
-          "nombre": "AirPods Max",
-          "descripcion": "Cancelación de ruido activa",
-          "categoria": "Audífonos",
-          "modelo": "AirPods Max",
-          "cantidad": 4,
+          "id": "premio-dinamica-4",
+          "sorteoId": "sorteo-dinamica-2027",
+          "nombre": "1 MOTO TORITO TVS 0 KM - COLOR AZUL",
+          "descripcion": "Mototaxi Torito TVS 0 Km color azul, motor 4 tiempos de alta potencia, lista para transporte y trabajo diario.",
+          "categoria": "Vehículo Menor",
+          "modelo": "Torito TVS King Deluxe 200cc",
+          "cantidad": 1,
           "esMayor": false,
           "orden": 4,
-          "imagenUrl": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500&auto=format&fit=crop&q=80"
+          "imagenUrl": "/uploads/premio-torito-tvs.png",
+          "valorEstimado": 18000
         },
         {
-          "id": "premio-5",
-          "sorteoId": "sorteo-activo-1",
-          "nombre": "Smart TV Samsung",
-          "descripcion": "Pantalla 65 pulgadas 4K UHD",
-          "categoria": "Smart TV",
-          "modelo": "Crystal UHD 65\"",
-          "cantidad": 3,
+          "id": "premio-dinamica-5",
+          "sorteoId": "sorteo-dinamica-2027",
+          "nombre": "2 LAPTOP GAMER HP VICTUS",
+          "descripcion": "Laptops potentes para gaming y edición profesional, procesador de alto rendimiento, gráficos dedicados y pantalla IPS 144Hz.",
+          "categoria": "Laptop Gamer",
+          "modelo": "HP Victus Gaming 15.6\"",
+          "cantidad": 2,
           "esMayor": false,
           "orden": 5,
-          "imagenUrl": "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=500&auto=format&fit=crop&q=80"
-        }
-      ]
-    },
-    {
-      "id": "sorteo-activo-2",
-      "titulo": "Mega Sorteo 4x4: ¡Camioneta Toyota Hilux + Cuatrimoto + S/ 5,000!",
-      "descripcion": "¡El sorteo más esperado del año! Llévate una Hilux 0Km o su valor en efectivo.",
-      "precioTicket": 20,
-      "fechaSorteo": "2026-11-15",
-      "horaSorteo": "21:00",
-      "fechaCierre": "2026-11-15",
-      "horaCierre": "19:00",
-      "estado": "ACTIVO",
-      "imagenPrincipal": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1000&auto=format&fit=crop&q=80",
-      "metaTickets": 3000,
-      "yapeNumero": "987 654 321",
-      "yapeNombre": "Juan Lorenzo Perez",
-      "createdAt": "2026-10-08T18:48:54.449Z",
-      "premios": [
-        {
-          "id": "premio-hilux-1",
-          "sorteoId": "sorteo-activo-2",
-          "nombre": "Camioneta Toyota Hilux 4x4 (0 Km)",
-          "descripcion": "Doble cabina, motor 2.8L turbo diésel, equipamiento completo.",
-          "esMayor": true,
-          "orden": 1,
-          "imagenUrl": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&auto=format&fit=crop&q=80"
+          "imagenUrl": "/uploads/premio-laptop-victus.png",
+          "valorEstimado": 4200
         },
         {
-          "id": "premio-hilux-2",
-          "sorteoId": "sorteo-activo-2",
-          "nombre": "Cuatrimoto Yamaha Raptor 700R",
-          "descripcion": "Edición especial todoterreno con amortiguación de alto rendimiento.",
+          "id": "premio-dinamica-6",
+          "sorteoId": "sorteo-dinamica-2027",
+          "nombre": "3 iPhone 17 Pro Max de 256 GB COLOR BLANCO",
+          "descripcion": "Smartphones Apple de última generación, 256 GB de memoria, color blanco titanio, sellados en caja con garantía oficial.",
+          "categoria": "Smartphone / Apple",
+          "modelo": "iPhone 17 Pro Max 256GB Blanco",
+          "cantidad": 3,
           "esMayor": false,
-          "orden": 2,
-          "imagenUrl": "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600&auto=format&fit=crop&q=80"
+          "orden": 6,
+          "imagenUrl": "/uploads/premio-iphone-17-pro.png",
+          "valorEstimado": 6500
         },
         {
-          "id": "premio-hilux-3",
-          "sorteoId": "sorteo-activo-2",
-          "nombre": "S/ 5,000 en Efectivo para Combustible",
-          "descripcion": "Premio en efectivo entregado el mismo día de la transmisión.",
+          "id": "premio-dinamica-7",
+          "sorteoId": "sorteo-dinamica-2027",
+          "nombre": "1 PLAYSTATION 5",
+          "descripcion": "Consola Sony PlayStation 5 con mando inalámbrico DualSense, lector de disco y retrocompatibilidad total.",
+          "categoria": "Videojuegos / Consola",
+          "modelo": "Sony PlayStation 5 Slim",
+          "cantidad": 1,
           "esMayor": false,
-          "orden": 3,
-          "imagenUrl": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&auto=format&fit=crop&q=80"
-        }
-      ]
-    },
-    {
-      "id": "sorteo-activo-3",
-      "titulo": "Sorteo Apple Pro: ¡iPhone 16 Pro Max + MacBook Air M3 + S/ 2,000!",
-      "descripcion": "El combo Apple definitivo con los equipos más potentes de última generación.",
-      "precioTicket": 10,
-      "fechaSorteo": "2026-11-05",
-      "horaSorteo": "19:30",
-      "fechaCierre": "2026-11-05",
-      "horaCierre": "18:00",
-      "estado": "ACTIVO",
-      "imagenPrincipal": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=1000&auto=format&fit=crop&q=80",
-      "metaTickets": 1500,
-      "createdAt": "2026-10-08T18:48:54.449Z",
-      "premios": [
-        {
-          "id": "premio-apple-1",
-          "sorteoId": "sorteo-activo-3",
-          "nombre": "iPhone 16 Pro Max 256GB Titanio Natural",
-          "descripcion": "Sellado en caja, libre para cualquier operador, garantía oficial Apple.",
-          "esMayor": true,
-          "orden": 1,
-          "imagenUrl": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&auto=format&fit=crop&q=80"
+          "orden": 7,
+          "imagenUrl": "/uploads/premio-playstation-5.png",
+          "valorEstimado": 2900
         },
         {
-          "id": "premio-apple-2",
-          "sorteoId": "sorteo-activo-3",
-          "nombre": "MacBook Air 15\" Chip M3",
-          "descripcion": "Memoria unificada de 16GB, 512GB SSD, color Medianoche.",
+          "id": "premio-dinamica-8",
+          "sorteoId": "sorteo-dinamica-2027",
+          "nombre": "100 PREMIOS DE S/500",
+          "descripcion": "100 premios en dinero en efectivo de S/ 500 cada uno, entregados de inmediato por transferencia bancaria, Yape o Plin.",
+          "categoria": "Dinero en Efectivo",
+          "modelo": "Efectivo Soles (S/ 500 cada uno)",
+          "cantidad": 100,
           "esMayor": false,
-          "orden": 2,
-          "imagenUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&auto=format&fit=crop&q=80"
-        },
-        {
-          "id": "premio-apple-3",
-          "sorteoId": "sorteo-activo-3",
-          "nombre": "S/ 2,000 en Efectivo directo a tu cuenta",
-          "descripcion": "Premio en efectivo para accesorios o libre disposición.",
-          "esMayor": false,
-          "orden": 3,
-          "imagenUrl": "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=600&auto=format&fit=crop&q=80"
+          "orden": 8,
+          "imagenUrl": "/uploads/premio-efectivo-500.png",
+          "valorEstimado": 50000
         }
       ]
     }
   ],
-  "compras": [
-    {
-      "id": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "sorteoTitulo": "Gran Sorteo Urbano: ¡Moto Honda Wave 110 + Smart TV 65\" + S/ 1,000!",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "celular": "977853196",
-      "cantidadTickets": 10,
-      "montoTotal": 20,
-      "metodoPago": "PLIN",
-      "comprobanteUrl": "/uploads/comprobante-1791496633974-2cc1e75c.jpeg",
-      "codigoOperacion": "33659235",
-      "ocrVerificado": false,
-      "estado": "PARTICIPANDO",
-      "createdAt": "2026-10-08T21:57:13.976Z",
-      "updatedAt": "2026-10-08T21:58:24.212Z"
-    }
-  ],
-  "tickets": [
-    {
-      "id": "f21dc37e-cc45-4b3e-a64b-ba612940eda7",
-      "compraId": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "numero": 1,
-      "numeroFormateado": "#00001",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "estado": "PARTICIPANDO",
-      "esGanador": false
-    },
-    {
-      "id": "33c475e1-395f-4f61-9650-3dba997ed715",
-      "compraId": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "numero": 2,
-      "numeroFormateado": "#00002",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "estado": "PARTICIPANDO",
-      "esGanador": false
-    },
-    {
-      "id": "96ec067a-d55b-4f92-8c19-f2a29388650a",
-      "compraId": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "numero": 3,
-      "numeroFormateado": "#00003",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "estado": "PARTICIPANDO",
-      "esGanador": false
-    },
-    {
-      "id": "ef0d5e01-76c2-4a62-bef2-e8575201e402",
-      "compraId": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "numero": 4,
-      "numeroFormateado": "#00004",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "estado": "PARTICIPANDO",
-      "esGanador": false
-    },
-    {
-      "id": "0173a62a-740a-4813-81d5-b94bd175b471",
-      "compraId": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "numero": 5,
-      "numeroFormateado": "#00005",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "estado": "PARTICIPANDO",
-      "esGanador": false
-    },
-    {
-      "id": "f0a3de3e-8974-4cfe-8132-e4ce8e808786",
-      "compraId": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "numero": 6,
-      "numeroFormateado": "#00006",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "estado": "PARTICIPANDO",
-      "esGanador": false
-    },
-    {
-      "id": "46f21843-6147-41c8-874e-eaa653b7759f",
-      "compraId": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "numero": 7,
-      "numeroFormateado": "#00007",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "estado": "PARTICIPANDO",
-      "esGanador": false
-    },
-    {
-      "id": "9ae45955-fcda-4824-b030-364ad7ef5a90",
-      "compraId": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "numero": 8,
-      "numeroFormateado": "#00008",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "estado": "PARTICIPANDO",
-      "esGanador": false
-    },
-    {
-      "id": "d62bbafe-7e9c-471a-bd79-2a2101d398bf",
-      "compraId": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "numero": 9,
-      "numeroFormateado": "#00009",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "estado": "PARTICIPANDO",
-      "esGanador": false
-    },
-    {
-      "id": "fec4defd-1630-45f5-b2f4-737b6d48fcfd",
-      "compraId": "dee04f4e-8d6b-4a6d-b786-5032bfb52633",
-      "sorteoId": "sorteo-activo-1",
-      "numero": 10,
-      "numeroFormateado": "#00010",
-      "dni": "74993664",
-      "nombreCompleto": "Aldair Jhonatan Tello Castañeda",
-      "estado": "PARTICIPANDO",
-      "esGanador": false
-    }
-  ],
-  "conversaciones": [
-    {
-      "id": "b5982cd5-4ec6-4620-95f4-b04a3ee5b02a",
-      "clienteDni": "74993664",
-      "clienteNombre": "Aldair Tello Castañeda",
-      "clienteCelular": "",
-      "ultimoMensaje": "9",
-      "noLeidosAdmin": 3,
-      "noLeidosCliente": 6,
-      "updatedAt": "2026-10-08T22:28:03.666Z",
-      "mensajes": [
-        {
-          "id": "c37a51e4-5dab-410a-b262-ce9b87abcc1e",
-          "conversacionId": "b5982cd5-4ec6-4620-95f4-b04a3ee5b02a",
-          "remitente": "CLIENTE",
-          "autorNombre": "Aldair Tello Castañeda",
-          "mensaje": "Hola, quiero saber cuando comienza el proximo sorteo",
-          "leido": false,
-          "timestamp": "2026-10-08T17:57:25.738Z"
-        },
-        {
-          "id": "fecbdbb3-ccf3-48db-9862-97d1d5ce960e",
-          "conversacionId": "b5982cd5-4ec6-4620-95f4-b04a3ee5b02a",
-          "remitente": "ADMIN",
-          "autorNombre": "Administrador Oficial",
-          "mensaje": "El próximo sorteo comienza el jueves 25 de agosto del 2027",
-          "leido": false,
-          "timestamp": "2026-10-08T17:58:03.785Z"
-        },
-        {
-          "id": "82e19958-609e-4049-a06b-f0a3bdd7ade9",
-          "conversacionId": "b5982cd5-4ec6-4620-95f4-b04a3ee5b02a",
-          "remitente": "CLIENTE",
-          "autorNombre": "Aldair Tello Castañeda",
-          "mensaje": "ok gracias",
-          "leido": false,
-          "timestamp": "2026-10-08T18:15:17.560Z"
-        },
-        {
-          "id": "205f5dd6-bea3-418f-8d91-e59f402452bf",
-          "conversacionId": "b5982cd5-4ec6-4620-95f4-b04a3ee5b02a",
-          "remitente": "CLIENTE",
-          "autorNombre": "Aldair Tello",
-          "mensaje": "cuantos tickets tengo",
-          "leido": false,
-          "timestamp": "2026-10-08T22:25:20.747Z"
-        },
-        {
-          "id": "4ce55529-9602-4a3e-bcac-43c49baa852b",
-          "conversacionId": "b5982cd5-4ec6-4620-95f4-b04a3ee5b02a",
-          "remitente": "ADMIN",
-          "autorNombre": "Administrador Oficial",
-          "mensaje": "5",
-          "leido": false,
-          "timestamp": "2026-10-08T22:25:40.179Z"
-        },
-        {
-          "id": "8995f795-62c5-49ed-be31-8caa34c53678",
-          "conversacionId": "b5982cd5-4ec6-4620-95f4-b04a3ee5b02a",
-          "remitente": "ADMIN",
-          "autorNombre": "Administrador Oficial",
-          "mensaje": "6",
-          "leido": false,
-          "timestamp": "2026-10-08T22:25:42.954Z"
-        },
-        {
-          "id": "b7051bf5-fc68-4081-8609-af0013593dea",
-          "conversacionId": "b5982cd5-4ec6-4620-95f4-b04a3ee5b02a",
-          "remitente": "ADMIN",
-          "autorNombre": "Administrador Oficial",
-          "mensaje": "7",
-          "leido": false,
-          "timestamp": "2026-10-08T22:25:51.529Z"
-        },
-        {
-          "id": "fd9fe380-c6bc-4fb3-974b-edd402b9bb92",
-          "conversacionId": "b5982cd5-4ec6-4620-95f4-b04a3ee5b02a",
-          "remitente": "ADMIN",
-          "autorNombre": "Administrador Oficial",
-          "mensaje": "8",
-          "leido": false,
-          "timestamp": "2026-10-08T22:25:56.778Z"
-        },
-        {
-          "id": "d491c128-269a-4b06-be6b-793ad7a9af20",
-          "conversacionId": "b5982cd5-4ec6-4620-95f4-b04a3ee5b02a",
-          "remitente": "ADMIN",
-          "autorNombre": "Administrador Oficial",
-          "mensaje": "9",
-          "leido": false,
-          "timestamp": "2026-10-08T22:28:03.666Z"
-        }
-      ]
-    },
-    {
-      "id": "e02241ad-4522-4a5f-ae79-0143a45542f9",
-      "clienteDni": "8596958525",
-      "clienteNombre": "asasasasas",
-      "clienteCelular": "",
-      "ultimoMensaje": "hola",
-      "noLeidosAdmin": 1,
-      "noLeidosCliente": 0,
-      "updatedAt": "2026-10-08T18:15:53.862Z",
-      "mensajes": [
-        {
-          "id": "e395639f-4490-45d0-b764-b755c4328f8e",
-          "conversacionId": "e02241ad-4522-4a5f-ae79-0143a45542f9",
-          "remitente": "CLIENTE",
-          "autorNombre": "asasasasas",
-          "mensaje": "hola",
-          "leido": false,
-          "timestamp": "2026-10-08T18:15:53.862Z"
-        }
-      ]
-    }
-  ],
+  "compras": [],
+  "tickets": [],
+  "conversaciones": [],
   "reclamaciones": [
     {
       "id": "c85e0fd7-2a9b-4025-a94a-737bfdf86c75",
