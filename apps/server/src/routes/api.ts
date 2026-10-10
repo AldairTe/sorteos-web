@@ -344,7 +344,7 @@ router.patch('/compras/:id/estado', (req: Request, res: Response) => {
         compraId: compra.id,
         sorteoId: compra.sorteoId,
         numero: num,
-        numeroFormateado: `#${String(num).padStart(5, '0')}`,
+        numeroFormateado: `#${String(num).padStart(7, '0')}`,
         dni: compra.dni,
         nombreCompleto: compra.nombreCompleto,
         estado: 'PARTICIPANDO',

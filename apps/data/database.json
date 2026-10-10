@@ -83,7 +83,7 @@
       "plinNumero": "987 654 321",
       "plinNombre": "Juan Lorenzo Perez",
       "plinQr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=PLIN:987654321",
-      "createdAt": "2026-10-10T06:00:54.212Z",
+      "createdAt": "2026-10-10T06:18:53.723Z",
       "premios": [
         {
           "id": "premio-dinamica-1",
@@ -184,8 +184,115 @@
       ]
     }
   ],
-  "compras": [],
-  "tickets": [],
+  "compras": [
+    {
+      "id": "126a3f54-31a3-404e-931c-c15caf0fdd7d",
+      "sorteoId": "sorteo-dinamica-2027",
+      "sorteoTitulo": "Gran Sorteo: Premios de la Dinámica",
+      "dni": "74993664",
+      "nombreCompleto": "aldair tello",
+      "celular": "977853196",
+      "cantidadTickets": 8,
+      "montoTotal": 40,
+      "metodoPago": "PLIN",
+      "comprobanteUrl": "/uploads/comprobante-1791612499925-7ddaa6ad.jpg",
+      "codigoOperacion": "33659235",
+      "ocrVerificado": false,
+      "estado": "PARTICIPANDO",
+      "createdAt": "2026-10-10T06:08:19.928Z",
+      "updatedAt": "2026-10-10T06:09:20.747Z"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "b28b142e-0a99-4d32-be0d-a7db094a94c9",
+      "compraId": "126a3f54-31a3-404e-931c-c15caf0fdd7d",
+      "sorteoId": "sorteo-dinamica-2027",
+      "numero": 1,
+      "numeroFormateado": "#0000001",
+      "dni": "74993664",
+      "nombreCompleto": "aldair tello",
+      "estado": "PARTICIPANDO",
+      "esGanador": false
+    },
+    {
+      "id": "294f990b-787c-44fe-b174-420bb8cf21a1",
+      "compraId": "126a3f54-31a3-404e-931c-c15caf0fdd7d",
+      "sorteoId": "sorteo-dinamica-2027",
+      "numero": 2,
+      "numeroFormateado": "#0000002",
+      "dni": "74993664",
+      "nombreCompleto": "aldair tello",
+      "estado": "PARTICIPANDO",
+      "esGanador": false
+    },
+    {
+      "id": "95a67dc9-fcf7-4861-9fb9-ff149fc868b3",
+      "compraId": "126a3f54-31a3-404e-931c-c15caf0fdd7d",
+      "sorteoId": "sorteo-dinamica-2027",
+      "numero": 3,
+      "numeroFormateado": "#0000003",
+      "dni": "74993664",
+      "nombreCompleto": "aldair tello",
+      "estado": "PARTICIPANDO",
+      "esGanador": false
+    },
+    {
+      "id": "06257aa8-61ab-47e7-8230-cec70bcaf0b0",
+      "compraId": "126a3f54-31a3-404e-931c-c15caf0fdd7d",
+      "sorteoId": "sorteo-dinamica-2027",
+      "numero": 4,
+      "numeroFormateado": "#0000004",
+      "dni": "74993664",
+      "nombreCompleto": "aldair tello",
+      "estado": "PARTICIPANDO",
+      "esGanador": false
+    },
+    {
+      "id": "0984bff7-1630-4f64-af2d-2049da60255a",
+      "compraId": "126a3f54-31a3-404e-931c-c15caf0fdd7d",
+      "sorteoId": "sorteo-dinamica-2027",
+      "numero": 5,
+      "numeroFormateado": "#0000005",
+      "dni": "74993664",
+      "nombreCompleto": "aldair tello",
+      "estado": "PARTICIPANDO",
+      "esGanador": false
+    },
+    {
+      "id": "6af5bfad-cd91-45b7-a06a-a28b6eef1e22",
+      "compraId": "126a3f54-31a3-404e-931c-c15caf0fdd7d",
+      "sorteoId": "sorteo-dinamica-2027",
+      "numero": 6,
+      "numeroFormateado": "#0000006",
+      "dni": "74993664",
+      "nombreCompleto": "aldair tello",
+      "estado": "PARTICIPANDO",
+      "esGanador": false
+    },
+    {
+      "id": "a45e713f-94e1-420c-b96a-9dd357fa90a3",
+      "compraId": "126a3f54-31a3-404e-931c-c15caf0fdd7d",
+      "sorteoId": "sorteo-dinamica-2027",
+      "numero": 7,
+      "numeroFormateado": "#0000007",
+      "dni": "74993664",
+      "nombreCompleto": "aldair tello",
+      "estado": "PARTICIPANDO",
+      "esGanador": false
+    },
+    {
+      "id": "9ffe57e9-c499-4459-9901-2ad378583045",
+      "compraId": "126a3f54-31a3-404e-931c-c15caf0fdd7d",
+      "sorteoId": "sorteo-dinamica-2027",
+      "numero": 8,
+      "numeroFormateado": "#0000008",
+      "dni": "74993664",
+      "nombreCompleto": "aldair tello",
+      "estado": "PARTICIPANDO",
+      "esGanador": false
+    }
+  ],
   "conversaciones": [],
   "reclamaciones": [
     {
