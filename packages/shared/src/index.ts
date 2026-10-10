@@ -7,6 +7,14 @@ export type EstadoSorteo = 'BORRADOR' | 'ACTIVO' | 'FINALIZADO';
 // Métodos de pago soportados
 export type MetodoPago = 'YAPE' | 'PLIN' | 'TRANSFERENCIA';
 
+export interface GanadorPremio {
+  numeroTicket: number;
+  dni: string;
+  nombre: string;
+  telefono?: string;
+  fechaAsignacion?: string;
+}
+
 export interface Premio {
   id: string;
   sorteoId: string;
@@ -15,13 +23,13 @@ export interface Premio {
   categoria?: string; // Ej. "Laptop", "Smartphone", "Vehículo"
   modelo?: string; // Ej. "MacBook Air", "iPhone 16"
   cantidad?: number; // Cantidad de unidades (ej. 4)
-  valorEstimado?: number; // Valor referencial en soles
   esMayor: boolean;
   orden: number;
   imagenUrl?: string;
   ganadorNombre?: string;
   ganadorDni?: string;
   ganadorTicket?: number;
+  ganadores?: GanadorPremio[]; // Lista de ganadores según la cantidad
 }
 
 export interface Sorteo {
@@ -107,15 +115,18 @@ export interface MensajeChat {
   timestamp: string;
 }
 
+// Conversación entre Cliente y Admin
 export interface Conversacion {
-  id: string;
+  id: string; // dni del cliente o UUID
   clienteDni: string;
   clienteNombre: string;
   clienteCelular?: string;
-  ultimoMensaje?: string;
-  noLeidosAdmin: number;
-  noLeidosCliente: number;
-  updatedAt: string;
+  ultimoMensaje: string;
+  ultimaFecha: string;
+  mensajesNoLeidos: number;
+  noLeidosAdmin?: number;
+  noLeidosCliente?: number;
+  updatedAt?: string;
   mensajes: MensajeChat[];
 }
 
@@ -159,6 +170,8 @@ export interface ConfiguracionWeb {
   transmisionFacebookActivo?: boolean;
   transmisionWhatsappUrl?: string;
   transmisionWhatsappActivo?: boolean;
+  transmisionYoutubeUrl?: string;
+  transmisionYoutubeActivo?: boolean;
 }
 
 export interface Reclamacion {
@@ -193,4 +206,3 @@ export interface GanadorFama {
   ciudad?: string;
   orden?: number;
 }
-

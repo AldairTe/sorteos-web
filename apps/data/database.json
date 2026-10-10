@@ -81,7 +81,7 @@
       "plinNumero": "987 654 321",
       "plinNombre": "Juan Lorenzo Perez",
       "plinQr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=PLIN:987654321",
-      "createdAt": "2026-10-10T02:24:50.952Z",
+      "createdAt": "2026-10-10T03:29:14.053Z",
       "premios": [
         {
           "id": "premio-dinamica-1",
@@ -93,8 +93,7 @@
           "cantidad": 1,
           "esMayor": true,
           "orden": 1,
-          "imagenUrl": "/uploads/premio-nissan-urvan.png",
-          "valorEstimado": 130000
+          "imagenUrl": "/uploads/premio-nissan-urvan.png"
         },
         {
           "id": "premio-dinamica-2",
@@ -106,8 +105,7 @@
           "cantidad": 1,
           "esMayor": true,
           "orden": 2,
-          "imagenUrl": "/uploads/premio-toyota-rush.png",
-          "valorEstimado": 95000
+          "imagenUrl": "/uploads/premio-toyota-rush.png"
         },
         {
           "id": "premio-dinamica-3",
@@ -119,8 +117,7 @@
           "cantidad": 1,
           "esMayor": false,
           "orden": 3,
-          "imagenUrl": "/uploads/premio-toyota-yaris.png",
-          "valorEstimado": 75000
+          "imagenUrl": "/uploads/premio-toyota-yaris.png"
         },
         {
           "id": "premio-dinamica-4",
@@ -132,8 +129,7 @@
           "cantidad": 1,
           "esMayor": false,
           "orden": 4,
-          "imagenUrl": "/uploads/premio-torito-tvs.png",
-          "valorEstimado": 18000
+          "imagenUrl": "/uploads/premio-torito-tvs.png"
         },
         {
           "id": "premio-dinamica-5",
@@ -145,8 +141,7 @@
           "cantidad": 2,
           "esMayor": false,
           "orden": 5,
-          "imagenUrl": "/uploads/premio-laptop-victus.png",
-          "valorEstimado": 4200
+          "imagenUrl": "/uploads/premio-laptop-victus.png"
         },
         {
           "id": "premio-dinamica-6",
@@ -158,8 +153,7 @@
           "cantidad": 3,
           "esMayor": false,
           "orden": 6,
-          "imagenUrl": "/uploads/premio-iphone-17-pro.png",
-          "valorEstimado": 6500
+          "imagenUrl": "/uploads/premio-iphone-17-pro.png"
         },
         {
           "id": "premio-dinamica-7",
@@ -171,8 +165,7 @@
           "cantidad": 1,
           "esMayor": false,
           "orden": 7,
-          "imagenUrl": "/uploads/premio-playstation-5.png",
-          "valorEstimado": 2900
+          "imagenUrl": "/uploads/premio-playstation-5.png"
         },
         {
           "id": "premio-dinamica-8",
@@ -184,8 +177,7 @@
           "cantidad": 100,
           "esMayor": false,
           "orden": 8,
-          "imagenUrl": "/uploads/premio-efectivo-500.png",
-          "valorEstimado": 50000
+          "imagenUrl": "/uploads/premio-efectivo-500.png"
         }
       ]
     }

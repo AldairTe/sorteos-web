@@ -154,7 +154,6 @@ const DEFAULT_SORTEOS: Sorteo[] = [
         esMayor: true,
         orden: 1,
         imagenUrl: '/uploads/premio-nissan-urvan.png',
-        valorEstimado: 130000
       },
       {
         id: 'premio-dinamica-2',
@@ -167,7 +166,6 @@ const DEFAULT_SORTEOS: Sorteo[] = [
         esMayor: true,
         orden: 2,
         imagenUrl: '/uploads/premio-toyota-rush.png',
-        valorEstimado: 95000
       },
       {
         id: 'premio-dinamica-3',
@@ -180,7 +178,6 @@ const DEFAULT_SORTEOS: Sorteo[] = [
         esMayor: false,
         orden: 3,
         imagenUrl: '/uploads/premio-toyota-yaris.png',
-        valorEstimado: 75000
       },
       {
         id: 'premio-dinamica-4',
@@ -193,7 +190,6 @@ const DEFAULT_SORTEOS: Sorteo[] = [
         esMayor: false,
         orden: 4,
         imagenUrl: '/uploads/premio-torito-tvs.png',
-        valorEstimado: 18000
       },
       {
         id: 'premio-dinamica-5',
@@ -206,7 +202,6 @@ const DEFAULT_SORTEOS: Sorteo[] = [
         esMayor: false,
         orden: 5,
         imagenUrl: '/uploads/premio-laptop-victus.png',
-        valorEstimado: 4200
       },
       {
         id: 'premio-dinamica-6',
@@ -219,7 +214,6 @@ const DEFAULT_SORTEOS: Sorteo[] = [
         esMayor: false,
         orden: 6,
         imagenUrl: '/uploads/premio-iphone-17-pro.png',
-        valorEstimado: 6500
       },
       {
         id: 'premio-dinamica-7',
@@ -232,7 +226,6 @@ const DEFAULT_SORTEOS: Sorteo[] = [
         esMayor: false,
         orden: 7,
         imagenUrl: '/uploads/premio-playstation-5.png',
-        valorEstimado: 2900
       },
       {
         id: 'premio-dinamica-8',
@@ -245,7 +238,6 @@ const DEFAULT_SORTEOS: Sorteo[] = [
         esMayor: false,
         orden: 8,
         imagenUrl: '/uploads/premio-efectivo-500.png',
-        valorEstimado: 50000
       }
     ]
   }
@@ -412,7 +404,20 @@ class Database {
   }
 
   // Chat
+  public pruneConversacionesAntiguas(dias = 15): void {
+    const limiteMs = Date.now() - dias * 24 * 60 * 60 * 1000;
+    const initialLen = this.data.conversaciones.length;
+    this.data.conversaciones = this.data.conversaciones.filter(c => {
+      const fecha = c.ultimaFecha ? new Date(c.ultimaFecha).getTime() : 0;
+      return fecha >= limiteMs;
+    });
+    if (this.data.conversaciones.length !== initialLen) {
+      this.save();
+    }
+  }
+
   public getConversaciones(): Conversacion[] {
+    this.pruneConversacionesAntiguas(15);
     return this.data.conversaciones;
   }
 

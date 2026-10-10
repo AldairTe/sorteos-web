@@ -38,6 +38,18 @@ export async function finalizarSorteo(id: string, ganadores: any[]): Promise<any
   return res.json();
 }
 
+export async function validarTicketSorteo(
+  sorteoId: string,
+  numeroTicket: string | number
+): Promise<{ valido: boolean; mensaje?: string; ticket?: { numero: number; numeroFormateado: string; dni: string; nombreCompleto: string; celular?: string } }> {
+  const res = await fetch(`${API_BASE}/sorteos/${sorteoId}/validar-ticket/${encodeURIComponent(numeroTicket)}`);
+  const data = await res.json();
+  if (!res.ok) {
+    return { valido: false, mensaje: data.mensaje || data.error || 'Ticket no válido' };
+  }
+  return data;
+}
+
 export async function getCompras(sorteoId?: string, estado?: EstadoTicket): Promise<Compra[]> {
   const params = new URLSearchParams();
   if (sorteoId) params.append('sorteoId', sorteoId);

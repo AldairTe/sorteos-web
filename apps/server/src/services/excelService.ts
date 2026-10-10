@@ -86,10 +86,12 @@ export class ExcelService {
     const sheetGanadores = workbook.addWorksheet('Ganadores y Premios');
     sheetGanadores.columns = [
       { header: 'Premio', key: 'premio', width: 32 },
+      { header: 'Unidad / Slot', key: 'slot', width: 14 },
       { header: 'Tipo', key: 'tipo', width: 16 },
       { header: 'N° Ticket Ganador', key: 'ticket', width: 20 },
       { header: 'DNI Ganador', key: 'dni', width: 14 },
       { header: 'Nombre del Ganador', key: 'nombre', width: 30 },
+      { header: 'Teléfono', key: 'telefono', width: 18 },
     ];
 
     sheetGanadores.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
@@ -101,13 +103,44 @@ export class ExcelService {
     sheetGanadores.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
 
     sorteo.premios.forEach(p => {
-      sheetGanadores.addRow({
-        premio: p.nombre,
-        tipo: p.esMayor ? '⭐ Premio Mayor' : 'Premio Secundario',
-        ticket: p.ganadorTicket ? `#${String(p.ganadorTicket).padStart(5, '0')}` : 'Por sortear',
-        dni: p.ganadorDni || '-',
-        nombre: p.ganadorNombre || '-',
-      });
+      const cantidad = p.cantidad || 1;
+      const ganadoresList = p.ganadores || [];
+
+      if (ganadoresList.length > 0) {
+        ganadoresList.forEach((g, idx) => {
+          sheetGanadores.addRow({
+            premio: p.nombre,
+            slot: `${idx + 1} de ${cantidad}`,
+            tipo: p.esMayor ? '⭐ Premio Mayor' : 'Premio Secundario',
+            ticket: g.numeroTicket ? `#${String(g.numeroTicket).padStart(5, '0')}` : 'Por sortear',
+            dni: g.dni || '-',
+            nombre: g.nombre || '-',
+            telefono: g.telefono || '-',
+          });
+        });
+      } else if (p.ganadorTicket) {
+        sheetGanadores.addRow({
+          premio: p.nombre,
+          slot: `1 de ${cantidad}`,
+          tipo: p.esMayor ? '⭐ Premio Mayor' : 'Premio Secundario',
+          ticket: `#${String(p.ganadorTicket).padStart(5, '0')}`,
+          dni: p.ganadorDni || '-',
+          nombre: p.ganadorNombre || '-',
+          telefono: '-',
+        });
+      } else {
+        for (let i = 1; i <= cantidad; i++) {
+          sheetGanadores.addRow({
+            premio: p.nombre,
+            slot: `${i} de ${cantidad}`,
+            tipo: p.esMayor ? '⭐ Premio Mayor' : 'Premio Secundario',
+            ticket: 'Por sortear',
+            dni: '-',
+            nombre: '-',
+            telefono: '-',
+          });
+        }
+      }
     });
 
     // ----------------------------------------------------

@@ -54,6 +54,9 @@ export const ReclamacionesView: React.FC = () => {
     }
   };
 
+  const [pagina, setPagina] = useState(1);
+  const ITEMS_POR_PAGINA = 10;
+
   const filtradas = reclamaciones.filter(r => {
     if (filtroTipo !== 'TODOS' && r.tipo !== filtroTipo) return false;
     if (filtroEstado !== 'TODOS' && r.estado !== filtroEstado) return false;
@@ -66,6 +69,12 @@ export const ReclamacionesView: React.FC = () => {
     }
     return true;
   });
+
+  const totalPaginas = Math.ceil(filtradas.length / ITEMS_POR_PAGINA) || 1;
+  const reclamacionesPaginadas = filtradas.slice(
+    (pagina - 1) * ITEMS_POR_PAGINA,
+    pagina * ITEMS_POR_PAGINA
+  );
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
@@ -160,7 +169,7 @@ export const ReclamacionesView: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
-                {filtradas.map(r => (
+                {reclamacionesPaginadas.map(r => (
                   <tr key={r.id} className="hover:bg-slate-50/80 transition">
                     <td className="py-3.5 px-4 font-mono font-bold text-purple-700">
                       {r.codigo}
@@ -215,6 +224,34 @@ export const ReclamacionesView: React.FC = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {/* Paginación */}
+        {totalPaginas > 1 && (
+          <div className="p-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-bold text-slate-600">
+            <span>
+              Mostrando {((pagina - 1) * ITEMS_POR_PAGINA) + 1} - {Math.min(pagina * ITEMS_POR_PAGINA, filtradas.length)} de {filtradas.length} hojas
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                disabled={pagina <= 1}
+                onClick={() => setPagina(p => Math.max(1, p - 1))}
+                className="px-3.5 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-40 cursor-pointer"
+              >
+                Anterior
+              </button>
+              <span className="px-2 text-purple-700 font-extrabold">Página {pagina} de {totalPaginas}</span>
+              <button
+                type="button"
+                disabled={pagina >= totalPaginas}
+                onClick={() => setPagina(p => Math.min(totalPaginas, p + 1))}
+                className="px-3.5 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-40 cursor-pointer"
+              >
+                Siguiente
+              </button>
+            </div>
           </div>
         )}
       </div>

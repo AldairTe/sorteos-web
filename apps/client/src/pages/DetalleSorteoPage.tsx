@@ -20,7 +20,7 @@ export const DetalleSorteoPage: React.FC<Props> = ({
   const [timeLeft, setTimeLeft] = useState({ dias: 0, horas: 0, minutos: 0, segundos: 0 });
 
   useEffect(() => {
-    const targetDate = new Date(`${sorteo.fechaCierre}T${sorteo.horaCierre || '20:00:00'}`).getTime();
+    const targetDate = new Date(`${sorteo.fechaSorteo}T${sorteo.horaSorteo || '20:00:00'}`).getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -39,7 +39,7 @@ export const DetalleSorteoPage: React.FC<Props> = ({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [sorteo.fechaCierre, sorteo.horaCierre]);
+  }, [sorteo.fechaSorteo, sorteo.horaSorteo]);
 
   const premios = sorteo.premios || [];
   const precioUnitario = Number(sorteo.precioTicket);
@@ -169,15 +169,21 @@ export const DetalleSorteoPage: React.FC<Props> = ({
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => onComprar(sorteo)}
-                className="w-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-slate-950 font-black text-sm sm:text-base py-4 px-6 rounded-2xl shadow-xl shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
-              >
-                <Ticket className="w-5 h-5 stroke-[2.5]" />
-                <span>COMPRAR BOLETOS AHORA</span>
-                <ChevronRight className="w-5 h-5 stroke-[2.5]" />
-              </button>
+              {sorteo.estado === 'ACTIVO' ? (
+                <button
+                  type="button"
+                  onClick={() => onComprar(sorteo)}
+                  className="w-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-slate-950 font-black text-sm sm:text-base py-4 px-6 rounded-2xl shadow-xl shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
+                >
+                  <Ticket className="w-5 h-5 stroke-[2.5]" />
+                  <span>COMPRAR BOLETOS AHORA</span>
+                  <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+                </button>
+              ) : (
+                <div className="w-full bg-rose-500/20 border border-rose-400/40 text-rose-200 font-black text-center py-4 px-6 rounded-2xl text-sm uppercase tracking-wider">
+                  Sorteo {sorteo.estado === 'FINALIZADO' ? 'Finalizado / Concluido' : 'No Disponible'}
+                </div>
+              )}
 
               <div className="flex items-center justify-center gap-2 text-xs text-purple-300/80 font-medium">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -272,15 +278,6 @@ export const DetalleSorteoPage: React.FC<Props> = ({
                         {premio.descripcion || 'Premio oficial verificado ante notario público para este sorteo.'}
                       </p>
                     </div>
-
-                    {premio.valorEstimado && (
-                      <div className="pt-3 border-t border-purple-100 dark:border-purple-900/40 flex items-center justify-between text-xs">
-                        <span className="font-semibold text-slate-500 dark:text-purple-300">Valor comercial aprox:</span>
-                        <span className="font-black text-emerald-600 dark:text-emerald-400 font-mono text-sm">
-                          S/ {Number(premio.valorEstimado).toFixed(2)}
-                        </span>
-                      </div>
-                    )}
                   </div>
                 </div>
               );

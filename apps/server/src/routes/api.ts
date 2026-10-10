@@ -73,10 +73,51 @@ router.put('/sorteos/:id', (req: Request, res: Response) => {
   return res.json(updated);
 });
 
+// Validar ticket dentro de un sorteo específico (para cierre de sorteo y asignación de ganadores)
+router.get('/sorteos/:id/validar-ticket/:numero', (req: Request, res: Response) => {
+  const sorteoId = String(req.params.id);
+  const rawNumero = String(req.params.numero).replace(/\D/g, '');
+  const numero = parseInt(rawNumero, 10);
+  if (isNaN(numero)) {
+    return res.status(400).json({ valido: false, mensaje: 'Número de ticket inválido' });
+  }
+
+  const sorteo = db.getSorteoById(sorteoId);
+  if (!sorteo) {
+    return res.status(404).json({ valido: false, mensaje: 'Sorteo no encontrado' });
+  }
+
+  const tickets = db.getTickets(sorteoId);
+  const ticket = tickets.find(t => t.numero === numero);
+  if (!ticket) {
+    return res.status(404).json({ valido: false, mensaje: `El ticket #${numero} no existe en este sorteo.` });
+  }
+
+  if (ticket.estado !== 'PARTICIPANDO') {
+    return res.status(400).json({ 
+      valido: false, 
+      mensaje: `El ticket #${numero} está en estado '${ticket.estado}' (debe estar PARTICIPANDO para poder ganar).` 
+    });
+  }
+
+  const compra = db.getCompraById(ticket.compraId);
+
+  return res.json({
+    valido: true,
+    ticket: {
+      numero: ticket.numero,
+      numeroFormateado: ticket.numeroFormateado,
+      dni: ticket.dni,
+      nombreCompleto: ticket.nombreCompleto,
+      celular: compra ? compra.celular : undefined,
+    }
+  });
+});
+
 // Finalizar sorteo (asignar ganadores y cerrar)
 router.post('/sorteos/:id/finalizar', (req: Request, res: Response) => {
   const id = String(req.params.id);
-  const { ganadores } = req.body; // Array de { premioId, ticketNumero, ganadorNombre, ganadorDni }
+  const { ganadores } = req.body;
 
   const sorteo = db.getSorteoById(id);
   if (!sorteo) {
@@ -88,9 +129,26 @@ router.post('/sorteos/:id/finalizar', (req: Request, res: Response) => {
     ganadores.forEach((g: any) => {
       const premio = sorteo.premios.find(p => p.id === g.premioId);
       if (premio) {
-        premio.ganadorTicket = g.ticketNumero;
-        premio.ganadorNombre = g.ganadorNombre;
-        premio.ganadorDni = g.ganadorDni;
+        if (Array.isArray(g.ganadores)) {
+          premio.ganadores = g.ganadores;
+          const first = g.ganadores[0];
+          if (first) {
+            premio.ganadorTicket = first.numeroTicket;
+            premio.ganadorNombre = first.nombre;
+            premio.ganadorDni = first.dni;
+          }
+        } else if (g.ticketNumero) {
+          premio.ganadorTicket = g.ticketNumero;
+          premio.ganadorNombre = g.ganadorNombre;
+          premio.ganadorDni = g.ganadorDni;
+          premio.ganadores = [{
+            numeroTicket: g.ticketNumero,
+            dni: g.ganadorDni,
+            nombre: g.ganadorNombre,
+            telefono: g.telefono,
+            fechaAsignacion: new Date().toISOString()
+          }];
+        }
       }
     });
   }

@@ -13,13 +13,15 @@ export const TransmisionesSection: React.FC<Props> = ({ config }) => {
   }
 
   const fbActivo = config.transmisionFacebookActivo !== false;
+  const ytActivo = Boolean(config.transmisionYoutubeActivo && config.transmisionYoutubeUrl);
   const waActivo = config.transmisionWhatsappActivo !== false;
 
-  if (!fbActivo && !waActivo) {
+  if (!fbActivo && !ytActivo && !waActivo) {
     return null;
   }
 
   const facebookUrl = config.transmisionFacebookUrl || config.facebookUrl || 'https://facebook.com';
+  const youtubeUrl = config.transmisionYoutubeUrl || 'https://youtube.com';
   const whatsappUrl = config.transmisionWhatsappUrl || (config.whatsappNumero ? `https://wa.me/${config.whatsappNumero.replace(/\D/g, '')}` : 'https://whatsapp.com');
 
   return (
@@ -41,7 +43,7 @@ export const TransmisionesSection: React.FC<Props> = ({ config }) => {
             Nuestras transmisiones <span className="text-rose-600 font-extrabold">EN VIVO</span>
           </h3>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-purple-200/80 mt-2 font-medium">
-            El sorteo se realiza <strong className="font-black text-slate-900 dark:text-white">únicamente por Facebook</strong>. En WhatsApp compartimos números, avisos y ganadores en vivo.
+            Sigue los sorteos en vivo y los avisos oficiales de ganadores a través de nuestros canales oficiales.
           </p>
         </div>
 
@@ -67,7 +69,7 @@ export const TransmisionesSection: React.FC<Props> = ({ config }) => {
 
                 <div className="min-w-0">
                   <span className="inline-block bg-[#1877F2] text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1 shadow-xs">
-                    🏆 Aquí se realiza el sorteo
+                    🏆 Transmisión Principal
                   </span>
                   <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
                     Facebook Live
@@ -79,6 +81,42 @@ export const TransmisionesSection: React.FC<Props> = ({ config }) => {
               </div>
 
               <div className="w-10 h-10 rounded-2xl bg-[#1877F2] text-white flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 ml-3 shadow-sm">
+                <ExternalLink className="w-4 h-4 stroke-[2.5]" />
+              </div>
+            </a>
+          )}
+
+          {/* Card YouTube Apilado (Debajo de Facebook) */}
+          {ytActivo && (
+            <a
+              href={youtubeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden bg-gradient-to-r from-red-100/90 via-red-50/80 to-rose-50/70 dark:from-[#350a0a] dark:via-[#260808] dark:to-[#180505] border-2 border-red-300 dark:border-red-700/80 hover:border-[#FF0000] dark:hover:border-[#FF0000] rounded-3xl p-5 sm:p-6 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF0000]/20 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#FF0000] border border-[#FF0000] p-3 flex items-center justify-center shrink-0 shadow-md shadow-[#FF0000]/30 group-hover:scale-105 transition-transform">
+                  <img
+                    src="/icons/youtube.svg"
+                    alt="YouTube"
+                    className="w-full h-full object-contain filter brightness-100"
+                  />
+                </div>
+
+                <div className="min-w-0">
+                  <span className="inline-block bg-[#FF0000] text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1 shadow-xs">
+                    🔴 Canal Oficial
+                  </span>
+                  <h4 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                    YouTube Transmisión
+                  </h4>
+                  <p className="text-xs text-[#cc0000] dark:text-[#ff6666] font-bold truncate mt-0.5">
+                    Sigue la transmisión y repeticiones en directo
+                  </p>
+                </div>
+              </div>
+
+              <div className="w-10 h-10 rounded-2xl bg-[#FF0000] text-white flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 ml-3 shadow-sm">
                 <ExternalLink className="w-4 h-4 stroke-[2.5]" />
               </div>
             </a>

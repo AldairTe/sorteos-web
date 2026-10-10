@@ -15,12 +15,12 @@ interface Props {
   onVerDetalles?: (sorteo: Sorteo) => void;
 }
 
-// Subcomponente de cuenta regresiva individual con paleta morada/pastel
-const SorteoReloj: React.FC<{ fechaCierre: string; horaCierre: string }> = ({ fechaCierre, horaCierre }) => {
+// Subcomponente de cuenta regresiva individual con paleta morada/pastel (Cuenta regresiva hacia la fecha/hora del sorteo)
+const SorteoReloj: React.FC<{ fechaSorteo: string; horaSorteo: string }> = ({ fechaSorteo, horaSorteo }) => {
   const [timeLeft, setTimeLeft] = useState({ dias: 0, horas: 0, minutos: 0, segundos: 0 });
 
   useEffect(() => {
-    const targetDate = new Date(`${fechaCierre}T${horaCierre || '20:00:00'}`).getTime();
+    const targetDate = new Date(`${fechaSorteo}T${horaSorteo || '20:00:00'}`).getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -39,7 +39,7 @@ const SorteoReloj: React.FC<{ fechaCierre: string; horaCierre: string }> = ({ fe
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [fechaCierre, horaCierre]);
+  }, [fechaSorteo, horaSorteo]);
 
   return (
     <div className="grid grid-cols-4 gap-2">
@@ -269,7 +269,7 @@ const SorteoCardHorizontal: React.FC<{
 
               {premioMayor.cantidad && premioMayor.cantidad > 1 && (
                 <span className="bg-white/20 backdrop-blur-md text-amber-300 text-xs font-black px-2.5 py-1 rounded-full border border-amber-300/40">
-                  {premioMayor.cantidad}x UNIDADES
+                  x{premioMayor.cantidad} UNIDADES
                 </span>
               )}
             </div>
@@ -345,7 +345,7 @@ const SorteoCardHorizontal: React.FC<{
                 <span>El sorteo comienza en</span>
               </div>
 
-              <SorteoReloj fechaCierre={sorteo.fechaCierre} horaCierre={sorteo.horaCierre} />
+              <SorteoReloj fechaSorteo={sorteo.fechaSorteo} horaSorteo={sorteo.horaSorteo} />
             </div>
 
             {/* Fecha del Sorteo */}

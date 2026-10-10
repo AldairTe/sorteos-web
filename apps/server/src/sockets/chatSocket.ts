@@ -54,6 +54,8 @@ export function setupSocketIO(io: Server) {
             clienteNombre: nombre,
             clienteCelular: celular || '',
             ultimoMensaje: mensaje,
+            ultimaFecha: new Date().toISOString(),
+            mensajesNoLeidos: remitente === 'CLIENTE' ? 1 : 0,
             noLeidosAdmin: remitente === 'CLIENTE' ? 1 : 0,
             noLeidosCliente: remitente === 'ADMIN' ? 1 : 0,
             updatedAt: new Date().toISOString(),
@@ -61,11 +63,13 @@ export function setupSocketIO(io: Server) {
           };
         } else {
           conversacion.ultimoMensaje = mensaje;
+          conversacion.ultimaFecha = new Date().toISOString();
           conversacion.updatedAt = new Date().toISOString();
           if (remitente === 'CLIENTE') {
-            conversacion.noLeidosAdmin += 1;
+            conversacion.noLeidosAdmin = (conversacion.noLeidosAdmin || 0) + 1;
+            conversacion.mensajesNoLeidos = conversacion.noLeidosAdmin;
           } else {
-            conversacion.noLeidosCliente += 1;
+            conversacion.noLeidosCliente = (conversacion.noLeidosCliente || 0) + 1;
           }
         }
 

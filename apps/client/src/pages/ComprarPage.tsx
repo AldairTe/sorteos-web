@@ -25,9 +25,9 @@ export const ComprarPage: React.FC<Props> = ({
   const [dni, setDni] = useState('');
   const [nombreCompleto, setNombreCompleto] = useState('');
   const [celular, setCelular] = useState('');
+  const [codigoOperacion, setCodigoOperacion] = useState('');
   const [archivoComprobante, setArchivoComprobante] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [infoCompresion, setInfoCompresion] = useState<{ originalKb: number; finalKb: number; ahorro: number } | null>(null);
 
   // Estados de OCR y antifraude
   const [isScanningOcr, setIsScanningOcr] = useState(false);
@@ -88,20 +88,18 @@ export const ComprarPage: React.FC<Props> = ({
     setIsScanningOcr(true);
 
     try {
-      // 1. Super compresión en el cliente mediante Canvas (reduce 5MB a ~70KB al instante)
+      // 1. Compresión optimizada en el cliente
       const compRes = await comprimirImagen(file);
       const fileComprimido = compRes.file;
       setArchivoComprobante(fileComprimido);
       setPreviewUrl(URL.createObjectURL(fileComprimido));
-      setInfoCompresion({
-        originalKb: compRes.pesoOriginalKb,
-        finalKb: compRes.pesoFinalKb,
-        ahorro: compRes.ahorroPorcentaje,
-      });
 
       // 2. Ejecutar OCR inteligente sobre la imagen optimizada
       const resultado = await analizarComprobanteOcr(fileComprimido);
       setOcrResultado(resultado);
+      if (resultado.codigoOperacion) {
+        setCodigoOperacion(resultado.codigoOperacion);
+      }
       if (resultado.esDuplicado) {
         setErrorMsg('⚠️ Este comprobante ya fue registrado anteriormente en el sistema. No se aceptan comprobantes duplicados.');
       }
@@ -129,6 +127,11 @@ export const ComprarPage: React.FC<Props> = ({
       return;
     }
 
+    if (!codigoOperacion || codigoOperacion.trim().length < 4) {
+      setErrorMsg('Debes ingresar o confirmar el N° de Operación del comprobante (mínimo 4 dígitos).');
+      return;
+    }
+
     if (ocrResultado?.esDuplicado) {
       setErrorMsg('No puedes enviar un comprobante que ya fue registrado anteriormente.');
       return;
@@ -146,9 +149,7 @@ export const ComprarPage: React.FC<Props> = ({
       formData.append('cantidadTickets', cantidad.toString());
       formData.append('metodoPago', (billeteraSeleccionada?.tipo as MetodoPago) || 'YAPE');
       formData.append('comprobante', archivoComprobante);
-      if (ocrResultado?.codigoOperacion) {
-        formData.append('codigoOperacionManual', ocrResultado.codigoOperacion);
-      }
+      formData.append('codigoOperacionManual', codigoOperacion.trim());
 
       await registrarCompra(formData);
 
@@ -170,6 +171,31 @@ export const ComprarPage: React.FC<Props> = ({
       setIsSubmitting(false);
     }
   };
+
+  if (sorteo.estado !== 'ACTIVO') {
+    return (
+      <div className="min-h-screen bg-pastel-50 dark:bg-[#0c0817] text-slate-900 dark:text-purple-100 transition-colors py-12 flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-white dark:bg-[#130d24] rounded-3xl border border-purple-200 dark:border-purple-900 p-8 text-center space-y-6 shadow-xl">
+          <div className="w-16 h-16 bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-center mx-auto">
+            <AlertCircle className="w-8 h-8" />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-xl font-black text-slate-900 dark:text-white">Sorteo no disponible</h2>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-purple-200/80">
+              Este sorteo se encuentra actualmente en estado <strong>{sorteo.estado}</strong> y no admite nuevas compras de boletos.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onVolver}
+            className="w-full py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-2xl text-sm transition cursor-pointer"
+          >
+            Volver al Catálogo de Sorteos
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-pastel-50 dark:bg-[#0c0817] text-slate-900 dark:text-purple-100 transition-colors py-8 sm:py-12">
@@ -237,7 +263,7 @@ export const ComprarPage: React.FC<Props> = ({
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="p-6 sm:p-10 space-y-8">
-              {/* PASO 1: Selector de Cantidad */}
+              {/* PASO 1: Selector de Cantidad Rápida y Personalizada */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-purple-300">
@@ -247,13 +273,15 @@ export const ComprarPage: React.FC<Props> = ({
                     S/ {precioUnitario.toFixed(2)} c/u
                   </span>
                 </div>
-                <div className="grid grid-cols-4 gap-2.5 sm:gap-3">
-                  {[1, 2, 5, 10].map(n => (
+
+                {/* Botones de acceso rápido */}
+                <div className="grid grid-cols-5 gap-2">
+                  {[1, 2, 5, 10, 20].map(n => (
                     <button
                       key={n}
                       type="button"
                       onClick={() => setCantidad(n)}
-                      className={`py-3 rounded-2xl font-black text-sm sm:text-base border transition-all cursor-pointer ${
+                      className={`py-2.5 rounded-xl font-black text-xs sm:text-sm border transition-all cursor-pointer ${
                         cantidad === n
                           ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/30 scale-[1.02]'
                           : 'bg-purple-50/50 dark:bg-[#180f2d] text-slate-700 dark:text-purple-200 border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900/40'
@@ -263,13 +291,47 @@ export const ComprarPage: React.FC<Props> = ({
                     </button>
                   ))}
                 </div>
-                <div className="flex items-center justify-between bg-purple-50/70 dark:bg-[#191030] p-4 rounded-2xl border border-purple-200/80 dark:border-purple-800/80">
-                  <span className="text-sm font-bold text-slate-700 dark:text-purple-200">
-                    Total a Pagar ({cantidad} {cantidad === 1 ? 'ticket' : 'tickets'}):
-                  </span>
-                  <span className="text-2xl font-black text-purple-700 dark:text-purple-300 font-mono">
-                    S/ {totalPagar.toFixed(2)}
-                  </span>
+
+                {/* Contador interactivo +/- y entrada numérica personalizada */}
+                <div className="flex flex-col sm:flex-row items-center justify-between bg-purple-50/70 dark:bg-[#191030] p-4 rounded-2xl border border-purple-200/80 dark:border-purple-800/80 gap-3">
+                  <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+                    <span className="text-xs font-bold text-slate-700 dark:text-purple-200">Personalizar cantidad:</span>
+                    <div className="inline-flex items-center bg-white dark:bg-[#120924] border border-purple-300 dark:border-purple-700 rounded-xl overflow-hidden shadow-xs">
+                      <button
+                        type="button"
+                        onClick={() => setCantidad(Math.max(1, cantidad - 1))}
+                        className="px-3.5 py-1.5 font-black text-lg text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition cursor-pointer select-none"
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        min="1"
+                        max="5000"
+                        value={cantidad}
+                        onChange={e => {
+                          const val = parseInt(e.target.value, 10);
+                          if (!isNaN(val) && val >= 1) setCantidad(val);
+                          else if (e.target.value === '') setCantidad(1);
+                        }}
+                        className="w-14 text-center py-1.5 font-mono font-black text-sm bg-transparent text-slate-900 dark:text-white focus:outline-hidden"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setCantidad(cantidad + 1)}
+                        className="px-3.5 py-1.5 font-black text-lg text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition cursor-pointer select-none"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-purple-200/60 dark:border-purple-800/60">
+                    <span className="text-xs text-slate-500 dark:text-purple-300">Total a pagar:</span>
+                    <span className="text-2xl font-black text-purple-700 dark:text-purple-300 font-mono">
+                      S/ {totalPagar.toFixed(2)}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -351,10 +413,10 @@ export const ComprarPage: React.FC<Props> = ({
                 )}
               </div>
 
-              {/* PASO 3: Subida de Comprobante con Compresión y OCR */}
-              <div className="space-y-3">
+              {/* PASO 3: Subida de Comprobante y N° de Operación */}
+              <div className="space-y-4">
                 <label className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-purple-300 block">
-                  Paso 3: Sube la captura de tu comprobante (Validación Inteligente Antifraude)
+                  Paso 3: Sube tu comprobante de pago
                 </label>
 
                 <div className="relative border-2 border-dashed border-purple-300 dark:border-purple-700/80 hover:border-purple-500 dark:hover:border-purple-500 bg-purple-50/40 dark:bg-[#160e2b] rounded-2xl p-6 text-center cursor-pointer transition">
@@ -369,21 +431,19 @@ export const ComprarPage: React.FC<Props> = ({
                     <div className="flex flex-col sm:flex-row items-center gap-4 text-left">
                       <img
                         src={previewUrl}
-                        alt="Preview comprobante"
+                        alt="Comprobante cargado"
                         className="w-24 h-24 object-cover rounded-xl border border-purple-300 dark:border-purple-700 shrink-0 shadow-xs"
                       />
                       <div className="flex-1 min-w-0 space-y-1">
-                        <p className="text-sm font-bold text-slate-900 dark:text-white truncate">
-                          {archivoComprobante?.name}
+                        <div className="flex items-center gap-1.5 text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                          <CheckCircle className="w-4 h-4 shrink-0" />
+                          <span>Comprobante listo y cargado</span>
+                        </div>
+                        <p className="text-xs text-slate-500 dark:text-purple-300/80">
+                          Imagen procesada para validación y registro oficial.
                         </p>
-                        {infoCompresion && (
-                          <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                            <Sparkles className="w-3.5 h-3.5" />
-                            <span>Optimizado: {infoCompresion.originalKb} KB → {infoCompresion.finalKb} KB (Ahorro del {infoCompresion.ahorro}%)</span>
-                          </p>
-                        )}
-                        <p className="text-xs text-purple-600 dark:text-purple-400 font-semibold">
-                          Haz clic para seleccionar otra captura si es necesario
+                        <p className="text-xs text-purple-600 dark:text-purple-400 font-semibold underline pt-1">
+                          Haz clic para cambiar la imagen si es necesario
                         </p>
                       </div>
                     </div>
@@ -396,7 +456,7 @@ export const ComprarPage: React.FC<Props> = ({
                         Haz clic o arrastra aquí la captura del comprobante
                       </p>
                       <p className="text-xs text-slate-500 dark:text-purple-300/70">
-                        PNG, JPG o WEBP. Se comprimirá automáticamente antes de enviar.
+                        PNG, JPG o WEBP. Validación antifraude automática.
                       </p>
                     </div>
                   )}
@@ -405,7 +465,7 @@ export const ComprarPage: React.FC<Props> = ({
                 {isScanningOcr && (
                   <div className="flex items-center gap-2 p-3 bg-purple-100 dark:bg-purple-950/60 rounded-xl text-xs font-bold text-purple-800 dark:text-purple-200 border border-purple-200 dark:border-purple-800">
                     <Loader2 className="w-4 h-4 animate-spin text-purple-600 dark:text-purple-400" />
-                    <span>Verificando autenticidad del comprobante y comprobando que no esté duplicado...</span>
+                    <span>Leyendo datos del comprobante y verificando autenticidad...</span>
                   </div>
                 )}
 
@@ -428,13 +488,28 @@ export const ComprarPage: React.FC<Props> = ({
                         </>
                       )}
                     </div>
-                    {ocrResultado.codigoOperacion && (
-                      <p className="font-mono text-[11px]">
-                        Código de Operación extraído: <strong>{ocrResultado.codigoOperacion}</strong>
-                      </p>
-                    )}
                   </div>
                 )}
+
+                {/* Campo Obligatorio de N° de Operación */}
+                <div>
+                  <label className="block text-xs font-black text-slate-700 dark:text-purple-200 uppercase tracking-wider mb-1.5">
+                    N° de Operación del Comprobante *
+                  </label>
+                  <input
+                    type="text"
+                    value={codigoOperacion}
+                    onChange={e => setCodigoOperacion(e.target.value.replace(/[^0-9a-zA-Z]/g, ''))}
+                    placeholder="Ej: 893421 o 20491823"
+                    className="w-full px-4 py-3 bg-purple-50/30 dark:bg-[#180f2d] border border-purple-200 dark:border-purple-800 rounded-xl text-slate-900 dark:text-white font-mono font-bold text-sm focus:outline-hidden focus:ring-2 focus:ring-purple-500"
+                    required
+                  />
+                  <p className="text-[11px] text-slate-500 dark:text-purple-300/70 mt-1">
+                    {ocrResultado?.codigoOperacion
+                      ? '✓ Extraído automáticamente desde tu comprobante. Puedes confirmarlo o corregirlo si lo deseas.'
+                      : 'Ingresa el número o código de operación que figura en tu voucher de Yape, Plin o banco.'}
+                  </p>
+                </div>
               </div>
 
               {/* PASO 4: Datos Personales (DNI 8 dígitos numérico, Nombre, Teléfono) */}

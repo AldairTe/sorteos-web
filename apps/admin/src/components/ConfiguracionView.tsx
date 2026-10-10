@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings, Save, Smartphone, MessageSquare, Globe, Plus, Trash2, Upload, QrCode, CheckCircle2, Loader2 } from 'lucide-react';
+import { Settings, Save, Smartphone, MessageSquare, Globe, Plus, Trash2, Upload, QrCode, CheckCircle2, Loader2, Pencil } from 'lucide-react';
 import { ConfiguracionWeb, BilleteraDigital } from '@sorteos/shared';
 import { actualizarConfiguracion, subirImagenQr, subirImagenLogo } from '../services/api';
 
@@ -45,6 +45,37 @@ export const ConfiguracionView: React.FC<Props> = ({ config, onConfigActualizada
     instrucciones: '',
     activo: true,
   });
+
+  // Modal / Formulario para editar billetera existente
+  const [billeteraEnEdicion, setBilleteraEnEdicion] = useState<BilleteraDigital | null>(null);
+
+  const handleGuardarEdicionBilletera = () => {
+    if (!billeteraEnEdicion) return;
+    if (!billeteraEnEdicion.nombre || !billeteraEnEdicion.numero || !billeteraEnEdicion.titular) {
+      alert('Por favor completa nombre, número y titular de la billetera');
+      return;
+    }
+    setForm(prev => ({
+      ...prev,
+      billeteras: prev.billeteras.map(b => (b.id === billeteraEnEdicion.id ? billeteraEnEdicion : b))
+    }));
+    setBilleteraEnEdicion(null);
+  };
+
+  const handleSubirQrEdicion = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !billeteraEnEdicion) return;
+
+    setSubiendoQrId('edicion');
+    try {
+      const qrUrl = await subirImagenQr(file);
+      setBilleteraEnEdicion(prev => (prev ? { ...prev, qrUrl } : null));
+    } catch (err) {
+      alert('Error al subir la imagen del QR');
+    } finally {
+      setSubiendoQrId(null);
+    }
+  };
 
   const handleSubirQr = async (billeteraId: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -213,8 +244,16 @@ export const ConfiguracionView: React.FC<Props> = ({ config, onConfigActualizada
                       </label>
                       <button
                         type="button"
+                        onClick={() => setBilleteraEnEdicion({ ...b })}
+                        className="text-slate-400 hover:text-purple-600 transition p-1"
+                        title="Modificar billetera"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
                         onClick={() => handleEliminarBilletera(b.id)}
-                        className="text-slate-400 hover:text-rose-600 transition"
+                        className="text-slate-400 hover:text-rose-600 transition p-1"
                         title="Eliminar billetera"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -467,6 +506,35 @@ export const ConfiguracionView: React.FC<Props> = ({ config, onConfigActualizada
               </div>
             </div>
 
+            {/* Card YouTube (Debajo de Facebook) */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-xs text-slate-800 flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#FF0000]" />
+                  Tarjeta de YouTube Transmisión
+                </span>
+                <label className="flex items-center gap-1.5 text-xs font-semibold cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(form.transmisionYoutubeActivo)}
+                    onChange={e => setForm({ ...form, transmisionYoutubeActivo: e.target.checked })}
+                    className="w-3.5 h-3.5 text-red-600 rounded"
+                  />
+                  <span>Habilitar Card</span>
+                </label>
+              </div>
+              <div>
+                <label className="text-[11px] font-semibold text-slate-500 block mb-1">Enlace del Canal o Live de YouTube:</label>
+                <input
+                  type="text"
+                  placeholder="https://youtube.com/@sorteoseltrebol/live"
+                  value={form.transmisionYoutubeUrl || ''}
+                  onChange={e => setForm({ ...form, transmisionYoutubeUrl: e.target.value })}
+                  className="w-full text-xs font-semibold p-2.5 rounded-xl border border-slate-200 outline-none bg-white focus:border-red-500"
+                />
+              </div>
+            </div>
+
             {/* Card WhatsApp */}
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
               <div className="flex items-center justify-between">
@@ -635,6 +703,126 @@ export const ConfiguracionView: React.FC<Props> = ({ config, onConfigActualizada
                 className="flex-1 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm"
               >
                 Agregar Billetera
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL MODIFICAR BILLETERA EXISTENTE */}
+      {billeteraEnEdicion && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in">
+          <div className="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl space-y-4">
+            <h3 className="text-lg font-black text-slate-900">
+              Modificar Billetera / Método de Pago
+            </h3>
+            <p className="text-xs text-slate-500">
+              Actualiza los datos del método de pago, número, titular o sustituye el código QR.
+            </p>
+
+            <div className="space-y-3">
+              <div>
+                <label className="text-xs font-bold text-slate-600 block mb-1">Tipo de Método:</label>
+                <select
+                  value={billeteraEnEdicion.tipo}
+                  onChange={e => setBilleteraEnEdicion({ ...billeteraEnEdicion, tipo: e.target.value as any })}
+                  className="w-full text-xs font-semibold p-2.5 rounded-xl border border-slate-200 outline-none"
+                >
+                  <option value="YAPE">Yape</option>
+                  <option value="PLIN">Plin</option>
+                  <option value="BANCO">Transferencia Bancaria (BCP, BBVA, Interbank)</option>
+                  <option value="OTRO">Otro Método</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-600 block mb-1">Nombre Descriptivo:</label>
+                <input
+                  type="text"
+                  placeholder="Ej. Yape Principal, BCP Cuenta Corriente"
+                  value={billeteraEnEdicion.nombre}
+                  onChange={e => setBilleteraEnEdicion({ ...billeteraEnEdicion, nombre: e.target.value })}
+                  className="w-full text-xs font-semibold p-2.5 rounded-xl border border-slate-200 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-600 block mb-1">Número de Teléfono o Cuenta:</label>
+                <input
+                  type="text"
+                  placeholder="Ej. 987 654 321 o 191-12345678-0-12"
+                  value={billeteraEnEdicion.numero}
+                  onChange={e => setBilleteraEnEdicion({ ...billeteraEnEdicion, numero: e.target.value })}
+                  className="w-full text-xs font-mono font-bold p-2.5 rounded-xl border border-slate-200 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-600 block mb-1">Nombre Completo del Titular:</label>
+                <input
+                  type="text"
+                  placeholder="Ej. Juan Pérez"
+                  value={billeteraEnEdicion.titular}
+                  onChange={e => setBilleteraEnEdicion({ ...billeteraEnEdicion, titular: e.target.value })}
+                  className="w-full text-xs font-semibold p-2.5 rounded-xl border border-slate-200 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-600 block mb-1">Instrucciones Adicionales (Opcional):</label>
+                <input
+                  type="text"
+                  placeholder="Ej. Enviar comprobante al WhatsApp luego de transferir"
+                  value={billeteraEnEdicion.instrucciones || ''}
+                  onChange={e => setBilleteraEnEdicion({ ...billeteraEnEdicion, instrucciones: e.target.value })}
+                  className="w-full text-xs font-semibold p-2.5 rounded-xl border border-slate-200 outline-none"
+                />
+              </div>
+
+              {/* Subir imagen QR */}
+              <div>
+                <label className="text-xs font-bold text-slate-600 block mb-1">Código QR:</label>
+                <div className="flex items-center gap-3">
+                  <label className="cursor-pointer bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 transition">
+                    {subiendoQrId === 'edicion' ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-purple-600" />
+                    ) : (
+                      <Upload className="w-3.5 h-3.5 text-purple-600" />
+                    )}
+                    <span>{billeteraEnEdicion.qrUrl ? 'Reemplazar QR' : 'Subir QR'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleSubirQrEdicion}
+                      className="hidden"
+                    />
+                  </label>
+                  {billeteraEnEdicion.qrUrl && (
+                    <div className="flex items-center gap-2">
+                      <img src={billeteraEnEdicion.qrUrl} alt="QR" className="w-8 h-8 rounded-lg object-contain border" />
+                      <span className="text-xs text-emerald-600 font-bold flex items-center gap-1">
+                        <CheckCircle2 className="w-4 h-4" /> QR Listo
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-3">
+              <button
+                type="button"
+                onClick={() => setBilleteraEnEdicion(null)}
+                className="flex-1 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={handleGuardarEdicionBilletera}
+                className="flex-1 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm cursor-pointer"
+              >
+                Guardar Cambios
               </button>
             </div>
           </div>

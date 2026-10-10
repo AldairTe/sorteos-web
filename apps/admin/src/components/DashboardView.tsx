@@ -31,6 +31,8 @@ export const DashboardView: React.FC<Props> = ({
   setTabActiva,
 }) => {
   const [filtroSorteoId, setFiltroSorteoId] = useState<string>('TODOS');
+  const [paginaCompras, setPaginaCompras] = useState(1);
+  const ITEMS_POR_PAGINA = 6;
 
   // Compras globales
   const comprasAprobadas = compras.filter(c => c.estado === 'PARTICIPANDO');
@@ -44,6 +46,12 @@ export const DashboardView: React.FC<Props> = ({
   const comprasFiltradas = filtroSorteoId === 'TODOS'
     ? compras
     : compras.filter(c => c.sorteoId === filtroSorteoId);
+
+  const totalPaginasCompras = Math.ceil(comprasFiltradas.length / ITEMS_POR_PAGINA) || 1;
+  const comprasPaginadas = comprasFiltradas.slice(
+    (paginaCompras - 1) * ITEMS_POR_PAGINA,
+    paginaCompras * ITEMS_POR_PAGINA
+  );
 
   return (
     <div className="space-y-8 animate-in fade-in duration-200">
@@ -404,7 +412,7 @@ export const DashboardView: React.FC<Props> = ({
                     </td>
                   </tr>
                 ) : (
-                  comprasFiltradas.slice(0, 6).map(c => (
+                  comprasPaginadas.map(c => (
                     <tr key={c.id} className="hover:bg-slate-50/80 transition">
                       <td className="py-3 font-bold text-slate-800">
                         {c.nombreCompleto}
@@ -436,6 +444,33 @@ export const DashboardView: React.FC<Props> = ({
               </tbody>
             </table>
           </div>
+
+          {/* Controles de paginación de compras */}
+          {totalPaginasCompras > 1 && (
+            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span className="text-slate-400 font-medium">
+                Pág. {paginaCompras} de {totalPaginasCompras} ({comprasFiltradas.length} compras)
+              </span>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  disabled={paginaCompras <= 1}
+                  onClick={() => setPaginaCompras(p => Math.max(1, p - 1))}
+                  className="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 cursor-pointer font-bold"
+                >
+                  Anterior
+                </button>
+                <button
+                  type="button"
+                  disabled={paginaCompras >= totalPaginasCompras}
+                  onClick={() => setPaginaCompras(p => Math.min(totalPaginasCompras, p + 1))}
+                  className="px-2.5 py-1 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 cursor-pointer font-bold"
+                >
+                  Siguiente
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

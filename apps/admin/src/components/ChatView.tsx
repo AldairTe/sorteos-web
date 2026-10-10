@@ -149,7 +149,7 @@ export const ChatView: React.FC = () => {
                         {c.clienteNombre || 'Cliente'}
                       </span>
                       <span className="text-[10px] text-slate-400">
-                        {new Date(c.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {new Date(c.updatedAt || c.ultimaFecha || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
                     <span className="text-[11px] font-mono text-purple-700 block">

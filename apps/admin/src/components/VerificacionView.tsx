@@ -12,6 +12,8 @@ export const VerificacionView: React.FC<Props> = ({ compras, onCompraActualizada
   const [filtroEstado, setFiltroEstado] = useState<EstadoTicket | 'TODOS'>('PENDIENTE');
   const [busqueda, setBusqueda] = useState('');
   const [modalImagen, setModalImagen] = useState<string | null>(null);
+  const [pagina, setPagina] = useState(1);
+  const ITEMS_POR_PAGINA = 10;
 
   // Modal para rechazar con motivo
   const [compraARechazar, setCompraARechazar] = useState<Compra | null>(null);
@@ -52,6 +54,12 @@ export const VerificacionView: React.FC<Props> = ({ compras, onCompraActualizada
       (c.codigoOperacion && c.codigoOperacion.includes(busqueda));
     return matchEstado && matchBusqueda;
   });
+
+  const totalPaginas = Math.ceil(comprasFiltradas.length / ITEMS_POR_PAGINA) || 1;
+  const comprasPaginadas = comprasFiltradas.slice(
+    (pagina - 1) * ITEMS_POR_PAGINA,
+    pagina * ITEMS_POR_PAGINA
+  );
 
   const pendientesCount = compras.filter(c => c.estado === 'PENDIENTE').length;
 
@@ -140,7 +148,7 @@ export const VerificacionView: React.FC<Props> = ({ compras, onCompraActualizada
             <p className="text-xs text-slate-500 mt-1">Los nuevos comprobantes aparecerán aquí al instante.</p>
           </div>
         ) : (
-          comprasFiltradas.map(compra => (
+          comprasPaginadas.map(compra => (
             <div
               key={compra.id}
               className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6"
@@ -245,7 +253,7 @@ export const VerificacionView: React.FC<Props> = ({ compras, onCompraActualizada
                     <button
                       onClick={() => handleAprobar(compra)}
                       disabled={procesandoId === compra.id}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-sm flex items-center justify-center gap-1.5"
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <CheckCircle className="w-4 h-4" />
                       <span>Aprobar Pago</span>
@@ -256,7 +264,7 @@ export const VerificacionView: React.FC<Props> = ({ compras, onCompraActualizada
                     <button
                       onClick={() => setCompraARechazar(compra)}
                       disabled={procesandoId === compra.id}
-                      className="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs px-4 py-2 rounded-xl transition flex items-center justify-center gap-1.5"
+                      className="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs px-4 py-2 rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <XCircle className="w-4 h-4" />
                       <span>Rechazar</span>
@@ -266,6 +274,34 @@ export const VerificacionView: React.FC<Props> = ({ compras, onCompraActualizada
               </div>
             </div>
           ))
+        )}
+
+        {/* Paginación */}
+        {totalPaginas > 1 && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white px-5 py-3.5 rounded-2xl border border-slate-200 text-xs font-bold text-slate-600 shadow-2xs">
+            <span>
+              Mostrando {((pagina - 1) * ITEMS_POR_PAGINA) + 1} - {Math.min(pagina * ITEMS_POR_PAGINA, comprasFiltradas.length)} de {comprasFiltradas.length} compras
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                disabled={pagina <= 1}
+                onClick={() => setPagina(p => Math.max(1, p - 1))}
+                className="px-3.5 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-40 cursor-pointer"
+              >
+                Anterior
+              </button>
+              <span className="px-2 text-purple-700 font-extrabold">Página {pagina} de {totalPaginas}</span>
+              <button
+                type="button"
+                disabled={pagina >= totalPaginas}
+                onClick={() => setPagina(p => Math.min(totalPaginas, p + 1))}
+                className="px-3.5 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 disabled:opacity-40 cursor-pointer"
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
         )}
       </div>
 

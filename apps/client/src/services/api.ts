@@ -5,7 +5,8 @@ const API_BASE = '/api';
 export async function getSorteos(): Promise<Sorteo[]> {
   const res = await fetch(`${API_BASE}/sorteos`);
   if (!res.ok) throw new Error('No se pudieron obtener los sorteos');
-  return res.json();
+  const list: Sorteo[] = await res.json();
+  return list.filter(s => s.estado === 'ACTIVO');
 }
 
 export async function getSorteoActivo(): Promise<Sorteo> {

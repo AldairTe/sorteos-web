@@ -62,7 +62,7 @@ export const Sidebar: React.FC<Props> = ({
   };
 
   const sidebarContent = (
-    <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 h-full min-h-screen">
+    <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 h-screen overflow-y-auto">
       <div>
         {/* Brand */}
         <div className="p-6 border-b border-slate-800 flex items-center justify-between">
@@ -148,8 +148,8 @@ export const Sidebar: React.FC<Props> = ({
 
   return (
     <>
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:block shrink-0">
+      {/* Desktop Sidebar Sticky */}
+      <div className="hidden lg:block shrink-0 sticky top-0 h-screen z-30">
         {sidebarContent}
       </div>
 
