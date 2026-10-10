@@ -34,13 +34,13 @@ export class OcrService {
       // "Nro. de operación: 12345678", "Operación: 12345678", "N° de operación: 01234567", "Código de operación: 123456"
       let codigoOperacion: string | undefined;
 
-      const patternOperacion = /(?:operaci[oó]n|c[oó]digo|nro\.?|ref(?:erencia)?)[^\d\n\r]*(\d{6,12})/i;
+      const patternOperacion = /(?:operaci[oó]n|c[oó]digo|nro\.?|n[°º]|n[úu]mero|ref(?:erencia)?|constancia|transacci[oó]n|comprobante)[^\d\n\r]*(\d{4,14})/i;
       const matchOp = text.match(patternOperacion);
       if (matchOp && matchOp[1]) {
         codigoOperacion = matchOp[1].trim();
       } else {
-        // Búsqueda alternativa: cualquier secuencia de 8 o 10 dígitos aislada (típico de Yape)
-        const matchDigits = text.match(/\b\d{8,10}\b/);
+        // Búsqueda alternativa: cualquier secuencia de 6 a 10 dígitos aislada (típico de comprobantes bancarios y billeteras)
+        const matchDigits = text.match(/\b\d{6,10}\b/);
         if (matchDigits) {
           codigoOperacion = matchDigits[0];
         }

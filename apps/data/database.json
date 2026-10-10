@@ -59,7 +59,9 @@
     "transmisionFacebookActivo": true,
     "transmisionWhatsappUrl": "https://chat.whatsapp.com/invite/sorteos-comunidad",
     "transmisionWhatsappActivo": true,
-    "logoUrl": "/uploads/comprobante-1791503350494-b38fe4ba.png"
+    "logoUrl": "/uploads/comprobante-1791503350494-b38fe4ba.png",
+    "transmisionYoutubeActivo": true,
+    "transmisionYoutubeUrl": "https://facebook.com/sorteoseltrebol.oficial"
   },
   "sorteos": [
     {
@@ -81,7 +83,7 @@
       "plinNumero": "987 654 321",
       "plinNombre": "Juan Lorenzo Perez",
       "plinQr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=PLIN:987654321",
-      "createdAt": "2026-10-10T03:29:14.053Z",
+      "createdAt": "2026-10-10T06:00:54.212Z",
       "premios": [
         {
           "id": "premio-dinamica-1",
